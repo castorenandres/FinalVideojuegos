@@ -30,6 +30,7 @@ class Character {
     private BottomSide = this.position[1] + this.charHeight;
 
     // sprites and sounds
+    private sprite = new Image();
     private spritedead = new Image();
     private spriteidle  = new Image();
     private coinGrab = new Audio(grabCoin);
@@ -54,8 +55,8 @@ class Character {
         return this.score;
     }
 
-    public setState () {
-        // aqui se asiganria el sprite desde la clase IdleState o DeadState?
+    public setState (spriteState) { //checar y como asignar el sprite inicial
+        this.sprite.src = spriteState;
     }
 
     public constructor () {
@@ -66,7 +67,7 @@ class Character {
         this.coinGrab.volume = 1;
 
         this.character = this.spriteidle;
-        this.position = [(width - this.charWidth) / 2, height * 0.55 - this.charHeight];
+        this.position = [(width - this.charWidth) / 2, (height - this.charHeight) / 2 ];
     };
 
     public checkCollisionCoin = (moneda: Moneda) => { 
@@ -94,6 +95,33 @@ class Character {
         this.lastMouseEvent = "dead";
         this.currentMouseEvent = "dead";
         
+    };
+
+    public keyDownHandler = (event: KeyboardEvent) => {
+        const key = event.key;
+        const {context} = GameContext;
+        const {width, height} = context.canvas;
+
+        switch (key) {
+            case "a":
+                if (this.position[0] > 80)
+                    this.position[0] -= 80;
+                break;
+
+            case "d":
+                if (this.position[0] < (width - this.charWidth) - 80)
+                    this.position[0] += 80;
+                break;
+
+            case "w":
+                if (this.position[1] > 80)
+                    this.position[1] -= 80;
+                break;
+            
+            case "s":
+                if (this.position[1] < (height - this.charHeight) - 80)
+                    this.position[1] += 80;
+        }
     };
 
     public mouseMovementHandler = (event: MouseEvent) => {

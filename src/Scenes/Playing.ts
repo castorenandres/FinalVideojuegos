@@ -7,6 +7,7 @@ import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
 import VicotryScene from "./VictoryScene";
+import GameContext from "../GameContext";
 
 class Playing extends Scene {
     private lasers: Laser[] = [];
@@ -14,17 +15,30 @@ class Playing extends Scene {
     private moneda: Moneda = null;
     private background = new Background(this);
     private soundtrack = new Audio(Soundtrack);
+    private isPaused = false;
+    private tutorial = true;
     
 
-    public handleMouseDown = (event: MouseEvent) => {
+    /*public handleMouseDown = (event: MouseEvent) => { // no se ocupa para movimiento pero para bombas?
         this.character.mouseMovementHandler(event); 
     };
-
+*/
     public  KeyUpHandler = (event: KeyboardEvent) => {};
     public  KeyDownHandler = (event: KeyboardEvent, engine: Engine) => {
         const {key} = event;
 
-        switch(key){ // pause/reset game
+        this.character.keyDownHandler(event);
+
+        switch(key){ // reset game
+            case "p":
+                if (this.tutorial === false)
+                    this.isPaused = !this.isPaused;
+                break;
+            
+            case "t":
+                this.tutorial = !this.tutorial;
+                break;
+
             case "Escape":
                 this.soundtrack.pause();
                 engine.setCurrentScene(new MenuScene());
@@ -44,31 +58,54 @@ class Playing extends Scene {
     }
 
     public update = (engine:Engine) => {
-        this.character.update();
-        this.moneda.update();
-        this.character.checkCollisionCoin(this.moneda);
-        for(let x = 0; x < 4; x++){
-            this.lasers[x].update();
-            if(this.lasers[x].checkCollisionBool(this.character, engine)){
-                this.soundtrack.pause();
+        if (!this.isPaused && !this.tutorial) {
+            this.character.update();
+            this.moneda.update();
+            this.character.checkCollisionCoin(this.moneda);
+            for(let x = 0; x < 4; x++){
+                this.lasers[x].update();
+                if(this.lasers[x].checkCollisionBool(this.character, engine)){
+                    this.soundtrack.pause();
+                }
+                this.lasers[x].checkCollision(this.character, engine, this.moneda);
             }
-            this.lasers[x].checkCollision(this.character, engine, this.moneda);
-        }
 
-        this.character.checkCollisionCoin(this.moneda);
+            this.character.checkCollisionCoin(this.moneda);
 
-        if (this.character.getScore() === 10) {
-            this.soundtrack.pause();
-            engine.setCurrentScene(new VicotryScene());
+            if (this.character.getScore() === 10) {
+                this.soundtrack.pause();
+                engine.setCurrentScene(new VicotryScene());
+            }
         }
+        
     }
 
     public render =() => {
+        const context = GameContext.context;
+
         this.background.render();
         this.character.render();
         this.moneda.render();
         for(let x = 0; x < 4; x++){
             this.lasers[x].render();
+        }
+        
+        if (this.tutorial) {
+            context.save();
+            //context.globalAlpha = 0.5;
+            context.rect(200,200,400,400);
+            context.fillStyle = "cyan";
+            context.fill();
+            context.restore(); 
+        }
+
+        if (this.isPaused) {
+            context.save();
+            context.globalAlpha = 0.5;
+            context.rect(200,200,400,400);
+            context.fillStyle = "white";
+            context.fill();
+            context.restore();
         }
     }
 }
