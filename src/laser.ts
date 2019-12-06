@@ -126,10 +126,10 @@ class laser{
     }
 
     public checkCollisionBool = (Character: Character, engine: Engine) => {
-        const mRight = Character.getRightSide() + 20;
-        const mLeft = Character.getLeftSide() + 50;
-        const mTop = Character.getTopSide() + 20;
-        const mBottom = Character.getBottomSide() - 20;
+        const mRight = Character.getRightSide();
+        const mLeft = Character.getLeftSide();
+        const mTop = Character.getTopSide();
+        const mBottom = Character.getBottomSide();
 
         if (this.LeftSide  < mRight && this.RightSide > mLeft && this.TopSide < mBottom && this.BottomSide > mTop) {
             return true;
