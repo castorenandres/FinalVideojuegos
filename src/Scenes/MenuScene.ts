@@ -22,12 +22,6 @@ class MenuScene extends Scene {
         const naturalHeight = this.backgroundImage.naturalHeight;
 
         context.save();
-        context.rect(0, 0, 800, 800);
-        context.fillStyle = "#a61b11"
-        context.fill();
-        context.restore();
-
-        context.save();
         context.beginPath();
         context.drawImage(this.backgroundImage, 0, 0, naturalWidth, naturalHeight);
         context.textAlign = "center";
@@ -59,7 +53,7 @@ class MenuScene extends Scene {
                 break;
             case "Enter":
                 if(this.currenOption == 0) {
-                    this.engine.setCurrentScene (new Playing());
+                    this.engine.setCurrentScene (new Playing()); // se va a Storypt1
                 }
                 if(this.currenOption == 1) {
                     this.engine.setCurrentScene(new Creditos());

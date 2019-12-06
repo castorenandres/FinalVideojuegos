@@ -52,7 +52,7 @@ class Level2 extends Scene{
     }
 
     public update = () => {
-        if (!this.isPaused) { // If it is in tutorial or paused update is paused
+        if (!this.isPaused) { // If the game is paused update is paused
             this.character.update();
             this.moneda.update();
             this.character.checkCollisionCoin(this.moneda);

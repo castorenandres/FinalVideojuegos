@@ -7,7 +7,7 @@ import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
 import GameContext from "../GameContext";
-import Level2 from "./BossFight";
+import Level2 from "./Level2";
 
 class Playing extends Scene {
     private lasers: Laser[] = [];
@@ -73,9 +73,9 @@ class Playing extends Scene {
 
             this.character.checkCollisionCoin(this.moneda);
 
-            if (this.character.getScore() === 10) {
+            if (this.character.getScore() === 5) {
                 this.soundtrack.pause();
-                this.engine.setCurrentScene(new Level2());
+                this.engine.setCurrentScene(new Level2()); // pasa a Storypt2
             }
         }
         

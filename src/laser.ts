@@ -32,12 +32,12 @@ class laser{
 
         if(this.axis < .5){
             //Vertial
-            posX = (this.random(5) * 125) + 87.5 + 45
+            posX = (this.random(5) * 160) + 60
             this.position = [posX, 0]
             this.horizontal = false;
         }else{
             //Horizontal
-            posY = (this.random(5) * 125) + 87.5 + 45
+            posY = (this.random(5) * 160) + 60
             this.position = [0, posY]
             this.horizontal = true;
             //Rotate 90 degrees
@@ -72,12 +72,12 @@ class laser{
             if(posY < 0 || posY > width || posX < 0 || posX > width){
                 if(this.axis < .5){
                     //Vertial
-                    posX = (this.random(5) * 125) + 87.5 + 45
+                    posX = (this.random(5) * 160) + 60
                     this.position = [posX, 0]
                     this.horizontal = false;
                 }else{
                     //Horizontal
-                    posY = (this.random(5) * 125) + 87.5 + 45
+                    posY = (this.random(5) * 160) + 60
                     this.position = [0, posY]
                     this.horizontal = true;
                     //Rotate 90 degrees
@@ -112,10 +112,10 @@ class laser{
     }
 
     public checkCollision = (Character: Character, engine: Engine, Moneda: Moneda) => {
-        const mRight = Character.getRightSide() + 20;
-        const mLeft = Character.getLeftSide() + 50;
-        const mTop = Character.getTopSide() + 20;
-        const mBottom = Character.getBottomSide() - 20;
+        const mRight = Character.getRightSide();
+        const mLeft = Character.getLeftSide();
+        const mTop = Character.getTopSide();
+        const mBottom = Character.getBottomSide();
 
         if (this.LeftSide  < mRight && this.RightSide > mLeft && this.TopSide < mBottom && this.BottomSide > mTop) {
             this.position = [-50, -50]

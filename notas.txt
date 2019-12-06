@@ -1,6 +1,5 @@
 Laser:
-    cuando regrese a la posicion inicial
-    250 + (math.random() * 50 - 25)
+    - cuando regrese a la posicion inicial 250 + (math.random() * 50 - 25)
 
 Character:
     - La animacion de dead no queda bien
@@ -8,3 +7,12 @@ Character:
 Boss:
     - Checar tamaño para sprite y render
     - Checar tamaño para hitbox
+
+GameOver:
+    - Se tarda en cargar y no se porqueeeee
+
+Pendiente:
+    + Velocidad lasers
+    + Historia pt 1, 2 y 3
+    + Clase Boss
+    + cambiar background de level2 y bossfight
