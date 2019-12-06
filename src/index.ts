@@ -1,12 +1,13 @@
 import GameEngine from "./Engine";
 import GameContext from "./GameContext";
+import Engine from "./Engine";
 
 const canvas = document.getElementById("game-area") as HTMLCanvasElement;
 const context = canvas.getContext("2d");
 
 GameContext.context = context;
 
-const engine = new GameEngine();
+const engine = Engine.getEngine();
 engine.start();
 
 

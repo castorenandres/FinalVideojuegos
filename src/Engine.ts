@@ -5,6 +5,13 @@ import MenuScene from "./Scenes/MenuScene";
 
 class Engine{
     private currentScene: Scene = null;
+    private static engine:Engine = new Engine();
+
+    private constructor() {};
+
+    public static getEngine(){
+        return this.engine;
+    }
 
     public start = () => {
         this.init();
@@ -21,7 +28,7 @@ class Engine{
     };
 
     public keydownHandler = (event: KeyboardEvent) => {
-        this.currentScene.KeyDownHandler(event, this);
+        this.currentScene.KeyDownHandler(event);
       };
     
     public keyupHandler = (event: KeyboardEvent) => {
@@ -56,7 +63,7 @@ class Engine{
     public tick = () => {
         this.clearScreen();
         Time.update();
-        this.currentScene.update(this);
+        this.currentScene.update();
         this.currentScene.render(); 
         requestAnimationFrame(this.tick);
     };

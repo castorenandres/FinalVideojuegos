@@ -8,10 +8,10 @@ class MenuScene extends Scene {
 
     private currenOption: number = 0;
     private options = ["Play", "Credits"]
-
+    private engine:Engine = Engine.getEngine();
 
     public enter = () => {};
-    public  update = (engine:Engine) => {};
+    public  update = () => {};
     public  render = () => {
         const context = GameContext.context;
         const width = context.canvas.width;
@@ -41,7 +41,7 @@ class MenuScene extends Scene {
     };
     public handleMouseDown = (event: MouseEvent) => {};
     public  KeyUpHandler = (event: KeyboardEvent) => {};
-    public  KeyDownHandler = (event: KeyboardEvent, engine: Engine) => {
+    public  KeyDownHandler = (event: KeyboardEvent) => {
 
         const key = event.key;
 
@@ -54,10 +54,10 @@ class MenuScene extends Scene {
                 break;
             case "Enter":
                 if(this.currenOption == 0) {
-                    engine.setCurrentScene (new Playing());
+                    this.engine.setCurrentScene (new Playing());
                 }
                 if(this.currenOption == 1) {
-                    engine.setCurrentScene(new Creditos());
+                    this.engine.setCurrentScene(new Creditos());
                 }
         }
     };

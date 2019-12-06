@@ -8,9 +8,10 @@ class Creditos extends Scene {
     private creditos = new Image();
     private currentOption: number = 0;
     private options = ["menu: click enter"];
+    private engine:Engine = Engine.getEngine();
 
     enter = () => {};
-    public update = (engine:Engine) => {};
+    public update = () => {};
     public render = () => {
         this.creditos.src = credits;
         const context = GameContext.context;
@@ -37,13 +38,13 @@ class Creditos extends Scene {
 
     public handleMouseDown = (event: MouseEvent) => {};
     public KeyUpHandler = (event: KeyboardEvent) => {};
-    public KeyDownHandler = (event: KeyboardEvent, engine: Engine) => {
+    public KeyDownHandler = (event: KeyboardEvent) => {
         const key = event.key;
 
         switch(key) {
             case "Enter":
                 if (this.currentOption === 0){
-                    engine.setCurrentScene(new MenuScene());
+                    this.engine.setCurrentScene(new MenuScene());
                 }
                 break;
         };
