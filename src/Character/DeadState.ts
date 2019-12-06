@@ -1,5 +1,5 @@
 import CharacterState from "./CharacterState";
-import spriteDeadfghdh from "/assets/spritesheetKnightDeadNew.png";
+import spriteDead from "/assets/spritesheetKnightDeadNew.png";
 
 class DeadState extends CharacterState { // Solamente cambia de sprite
 
@@ -14,9 +14,9 @@ class DeadState extends CharacterState { // Solamente cambia de sprite
     public update =()=> { // checar si se arma singltone sino mandar engine
         this.framecounter ++;
 
-        if (this.framecounter >= 60) {
+        //if (this.framecounter >= 60) {
             // cambia escena
-        }
+        //}
         
     }
 };

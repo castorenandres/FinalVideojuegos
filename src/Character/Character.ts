@@ -1,10 +1,9 @@
-import spriteDead from "/assets/spritesheetKnightDeadNew.png";
-import spriteIdle from "/assets/spritesheetKnightIdle.png";
 import grabCoin from "/assets/grabCoin.wav";
 import GameContext from "../GameContext";
 import Moneda from "../Moneda";
 import CharState from "./CharacterState";
 import IdleState from "./IdleState";
+import DeadState from "./DeadState";
 
 type coords = [number, number];
 
@@ -32,8 +31,6 @@ class Character {
 
     // sprites and sounds
     private sprite = new Image();
-    private spritedead = new Image();
-    private spriteidle  = new Image();
     private coinGrab = new Audio(grabCoin);
 
     public getRightSide () {
@@ -65,11 +62,9 @@ class Character {
         const {width, height} = context.canvas;
         this.state = new IdleState(this);
         this.state.enter();
-        //this.spriteidle.src = spriteIdle;
-        //this.spritedead.src = spriteDead;
         this.coinGrab.volume = 1;
 
-        this.character = this.spriteidle;
+        this.character = this.sprite;
         this.position = [(width - this.charWidth) / 2, (height - this.charHeight) / 2 ];
     };
 
@@ -125,15 +120,12 @@ class Character {
         }
     };
 
-    public mouseMovementHandler = (event: MouseEvent) => {
+    public mouseMovementHandler = (event: MouseEvent) => { // se puede usar esto con el boss
         let [coordx, coordy] = this.position;
 
         // Mouse has to be over the character to move
         if (event.offsetX < this.RightSide  && event.offsetX > this.LeftSide && event.offsetY < this.BottomSide && event.offsetY > this.TopSide) {
             if (event.type === "mousedown" && (this.currentMouseEvent === "" || this.currentMouseEvent === "mouseup")){
-                if(this.soundJump.paused) {
-                    this.soundJump.play();
-                }
                 this.click = true;
                 this.lastMouseEvent = this.currentMouseEvent;
                 this.currentMouseEvent = "mousedown";

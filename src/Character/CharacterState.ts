@@ -1,5 +1,6 @@
 import Character from "./Character";
 import IdleState from "./IdleState";
+import DeadState from "./DeadState";
 
 abstract class CharacterState {
     protected character: Character = null;

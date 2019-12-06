@@ -18,7 +18,7 @@ class Playing extends Scene {
     private isPaused = false;
     private tutorial = true;
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
-    private tutorialInstructions = ["Movement: WASD", "Dodge spells"]
+    private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
     
     public  KeyUpHandler = (event: KeyboardEvent) => {};
     public  KeyDownHandler = (event: KeyboardEvent, engine: Engine) => {
@@ -79,6 +79,8 @@ class Playing extends Scene {
 
     public render =() => {
         const context = GameContext.context;
+        const width = context.canvas.width;
+        const height = context.canvas.height;
 
         this.background.render();
         this.character.render();
@@ -91,15 +93,20 @@ class Playing extends Scene {
             context.save();
             //context.globalAlpha = 0.5;
             context.rect(200,200,400,400);
-            context.fillStyle = "cyan";
+            context.fillStyle = "#1E63B3";
             context.fill();
             context.restore();
             
             context.save();
+            context.beginPath();
             context.textAlign = "center";
             context.fillStyle = "white";
-            context.font = "50px sans"
-            context.strokeStyle = "black";
+            context.font = "30px sans"
+            for (let i = 0; i < this.tutorialInstructions.length; i++){
+                context.fillText(this.tutorialInstructions[i], width / 2, height / 3 + i * 70);
+            }
+            context.closePath();
+            context.restore();
         }
 
         if (this.isPaused) {
@@ -108,6 +115,17 @@ class Playing extends Scene {
             context.rect(200,200,400,400);
             context.fillStyle = "white";
             context.fill();
+            context.restore();
+
+            context.save();
+            context.beginPath();
+            context.textAlign = "center";
+            context.fillStyle = "#F55600";
+            context.font = "30px sans"
+            for (let i = 0; i < this.optionsPause.length; i++){
+                context.fillText(this.optionsPause[i], width / 2, height / 2.25 + i * 70);
+            }
+            context.closePath();
             context.restore();
         }
     }
