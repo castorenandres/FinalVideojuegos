@@ -4,4 +4,7 @@ Laser:
 
 Character:
     - La animacion de dead no queda bien
-    - 
+
+Boss:
+    - Checar tamaño para sprite y render
+    - Checar tamaño para hitbox
