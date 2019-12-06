@@ -4,6 +4,7 @@ import grabCoin from "/assets/grabCoin.wav";
 import GameContext from "../GameContext";
 import Moneda from "../Moneda";
 import CharState from "./CharacterState";
+import IdleState from "./IdleState";
 
 type coords = [number, number];
 
@@ -55,20 +56,25 @@ class Character {
         return this.score;
     }
 
-    public setState (spriteState) { //checar y como asignar el sprite inicial
+    public setSprite (spriteState) { //checar y como asignar el sprite inicial
         this.sprite.src = spriteState;
     }
 
     public constructor () {
         const {context} = GameContext;
         const {width, height} = context.canvas;
-        this.spriteidle.src = spriteIdle;
-        this.spritedead.src = spriteDead;
+        this.state = new IdleState(this);
+        this.state.enter();
+        //this.spriteidle.src = spriteIdle;
+        //this.spritedead.src = spriteDead;
         this.coinGrab.volume = 1;
 
         this.character = this.spriteidle;
         this.position = [(width - this.charWidth) / 2, (height - this.charHeight) / 2 ];
     };
+
+    public  updateSprite = (stateChar: CharState) => {};
+
 
     public checkCollisionCoin = (moneda: Moneda) => { 
         const mRight = moneda.getRightSide() + 20;
@@ -88,13 +94,8 @@ class Character {
     };
 
     public CharacterDead = () => { // sets the sprite to spriteKnightDead and changes the last and current mouse event to run the animation
-        this.character = this.spritedead;
-        this.sWidth = 57;
-        this.offsetx = 89.5; 
-        this.currentCharFrame = 0;
-        this.lastMouseEvent = "dead";
-        this.currentMouseEvent = "dead";
-        
+        this.state = new DeadState(this);
+        this.state.enter();
     };
 
     public keyDownHandler = (event: KeyboardEvent) => {
@@ -163,60 +164,13 @@ class Character {
         this.TopSide = this.position[1];
         this.BottomSide = this.position[1] + this.charHeight;
 
-        this.frameCounter += 1;
-        if (this.currentMouseEvent === "" ) { // idle animation 
-            this.character = this.spriteidle;
-            this.offsetx = 62.1;
-            
-
-            
-            if (this.frameCounter % 6 === 0) {
-                this.currentCharFrame = (this.currentCharFrame + 1) % 10;
-            }
+        this.frameCounter += 1;  
+        if (this.frameCounter % 6 === 0) {
+            this.currentCharFrame = (this.currentCharFrame + 1) % 10;
         }
 
-        if (this.currentMouseEvent === "mousedown") { // jump animation
-            this.character = this.spritejump;
-            this.offsetx = 62.4;
-            
 
-            
-            if (this.currentCharFrame < 4) { 
-                if (this.frameCounter % 6 === 0) {
-                    this.currentCharFrame = (this.currentCharFrame + 1);
-                }
-            }
-            
-        }
-
-        
-
-        if (this.currentMouseEvent === "mouseup" ) { // land animation
-            this.character = this.spriteland;
-            this.offsetx = 62.4;
-            
-            if (this.currentCharFrame < 5) {
-                if (this.frameCounter % 6 === 0) {
-                    this.currentCharFrame = (this.currentCharFrame + 1);
-                }
-            } else { // change to idle animation
-                if(this.soundLand.paused) {
-                    this.soundLand.play();
-                }
-                this.lastMouseEvent = this.currentMouseEvent;
-                this.currentMouseEvent = "";
-            }
-            
-        }
-
-        if (this.currentMouseEvent === "dead" && this.lastMouseEvent === "dead") { // dead animation
-            this.frameCounter += 1;
-            if (this.currentCharFrame < 9) { 
-                if (this.frameCounter % 6 === 0) {
-                    this.currentCharFrame = (this.currentCharFrame + 1);
-                }
-            }  
-        }
+       
 
     };
 

@@ -17,19 +17,16 @@ class Playing extends Scene {
     private soundtrack = new Audio(Soundtrack);
     private isPaused = false;
     private tutorial = true;
+    private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
+    private tutorialInstructions = ["Movement: WASD", "Dodge spells"]
     
-
-    /*public handleMouseDown = (event: MouseEvent) => { // no se ocupa para movimiento pero para bombas?
-        this.character.mouseMovementHandler(event); 
-    };
-*/
     public  KeyUpHandler = (event: KeyboardEvent) => {};
     public  KeyDownHandler = (event: KeyboardEvent, engine: Engine) => {
         const {key} = event;
 
         this.character.keyDownHandler(event);
 
-        switch(key){ // reset game
+        switch(key){ 
             case "p":
                 if (this.tutorial === false)
                     this.isPaused = !this.isPaused;
@@ -96,7 +93,13 @@ class Playing extends Scene {
             context.rect(200,200,400,400);
             context.fillStyle = "cyan";
             context.fill();
-            context.restore(); 
+            context.restore();
+            
+            context.save();
+            context.textAlign = "center";
+            context.fillStyle = "white";
+            context.font = "50px sans"
+            context.strokeStyle = "black";
         }
 
         if (this.isPaused) {

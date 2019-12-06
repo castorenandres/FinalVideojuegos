@@ -121,10 +121,7 @@ class laser{
             this.position = [-50, -50]
             this.speed = 0;
             Character.CharacterDead();
-            Moneda.quitarDelTablero()
-            setTimeout(function () {
-                engine.setCurrentScene(new GameOver);
-            }, 3000);
+            Moneda.quitarDelTablero();
         }
     }
 
