@@ -1,5 +1,5 @@
 import Playing from "./Scenes/Playing"
-import background from "/assets/pa.jpg";
+import background from "/assets/PlayingBackground.png";
 import GameContext from "./GameContext";
 class Background{
     private backgroundImage = new Image ();
