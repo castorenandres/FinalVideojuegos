@@ -20,6 +20,7 @@ class Level2 extends Scene{
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
     private engine:Engine = Engine.getEngine();
     
+    public handleMouseDown = (event: MouseEvent) => {};
     public  KeyUpHandler = (event: KeyboardEvent) => {
         this.character.KeyUpHandler(event);
     };
@@ -66,7 +67,7 @@ class Level2 extends Scene{
 
             this.character.checkCollisionCoin(this.moneda);
 
-            if (this.character.getScore() === 25) {
+            if (this.character.getScore() === 15) {
                 this.soundtrack.pause();
                 this.engine.setCurrentScene(new BossFight());
             }

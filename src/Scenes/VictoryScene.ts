@@ -41,10 +41,9 @@ class VicotryScene extends Scene {
         context.closePath();
         context.restore();
     };
-
     public handleMouseDown = (event: MouseEvent) => {};
-    public  KeyUpHandler = (event: KeyboardEvent) => {};
-    public  KeyDownHandler = (event: KeyboardEvent) => {
+    public KeyUpHandler = (event: KeyboardEvent) => {};
+    public KeyDownHandler = (event: KeyboardEvent) => {
         const key = event.key;
 
         switch(key) {

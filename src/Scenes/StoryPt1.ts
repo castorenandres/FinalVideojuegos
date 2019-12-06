@@ -15,7 +15,7 @@ abstract class StoryPt1 { // no se tiene que usar todo lo puedes dejar asi como 
     public abstract render = () => {};
 
     public handleMouseDown = (event: MouseEvent) => {};
-    public abstract KeyUpHandler = (event: KeyboardEvent) => {};
-    public abstract KeyDownHandler = (event: KeyboardEvent) => {};
+    public KeyUpHandler = (event: KeyboardEvent) => {};
+    public KeyDownHandler = (event: KeyboardEvent) => {};
 };
 export default StoryPt1;

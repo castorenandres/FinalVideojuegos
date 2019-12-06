@@ -20,6 +20,8 @@ class Playing extends Scene {
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
     private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
     private engine:Engine = Engine.getEngine();
+
+    public handleMouseDown = (event: MouseEvent) => {};
     
     public  KeyUpHandler = (event: KeyboardEvent) => {
         this.character.KeyUpHandler(event);
@@ -75,7 +77,7 @@ class Playing extends Scene {
 
             this.character.checkCollisionCoin(this.moneda);
 
-            if (this.character.getScore() === 10) {
+            if (this.character.getScore() === 5) {
                 this.soundtrack.pause();
                 this.engine.setCurrentScene(new Level2()); // pasa a Storypt2
             }
