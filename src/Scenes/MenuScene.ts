@@ -2,10 +2,11 @@ import Scene from "./Scene";
 import GameContext from "../GameContext";
 import Engine from "../Engine";
 import Playing from "./Level1";
-import Creditos from "./Creditos"
+import Creditos from "./Creditos";
+import background from "/assets/MenuScene.png"
 
 class MenuScene extends Scene {
-
+    private backgroundImage = new Image();
     private currenOption: number = 0;
     private options = ["Play", "Credits"]
     private engine:Engine = Engine.getEngine();
@@ -16,6 +17,9 @@ class MenuScene extends Scene {
         const context = GameContext.context;
         const width = context.canvas.width;
         const height = context.canvas.height;
+        this.backgroundImage.src = background;
+        const naturalWidth = this.backgroundImage.naturalWidth;
+        const naturalHeight = this.backgroundImage.naturalHeight;
 
         context.save();
         context.rect(0, 0, 800, 800);
@@ -25,6 +29,7 @@ class MenuScene extends Scene {
 
         context.save();
         context.beginPath();
+        context.drawImage(this.backgroundImage, 0, 0, naturalWidth, naturalHeight);
         context.textAlign = "center";
         context.fillStyle = "white";
         context.font = "50px sans"

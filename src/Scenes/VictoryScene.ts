@@ -2,8 +2,8 @@ import Scene from "./Scene";
 import GameContext from "../GameContext";
 import Engine from "../Engine";
 import MenuScene from "./MenuScene";
-import Creditos from "./Creditos"
-import background from "/assets/victoriaBG.jpg"
+import Creditos from "./Creditos";
+import background from "/assets/victoriaBG.jpg";
 
 class VicotryScene extends Scene {
     private backgroundImage = new Image();
