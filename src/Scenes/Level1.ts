@@ -8,7 +8,7 @@ import Moneda from "../Moneda"
 import Laser from "../laser";
 import VicotryScene from "./VictoryScene";
 import GameContext from "../GameContext";
-import Level2 from "./Level2";
+import Level2 from "./BossFight";
 
 class Playing extends Scene {
     private lasers: Laser[] = [];

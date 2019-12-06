@@ -1,19 +1,13 @@
 import Scene from "./Scene";
-import Character from "../Character/Character";
 import Engine from "../Engine";
 import MenuScene from "./MenuScene";
-import Background from "../Background2";
+import Background from "../Background3";
 import Soundtrack from "/assets/soundtrack.mp3";
-import Moneda from "../Moneda"
-import Laser from "../laser";
 import VicotryScene from "./VictoryScene";
 import GameContext from "../GameContext";
 
-class Level2 extends Scene{
+class BossFight extends Scene{
 
-    private lasers: Laser[] = [];
-    private character: Character = null;
-    private moneda: Moneda = null;
     private background = new Background(this);
     private soundtrack = new Audio(Soundtrack);
     private isPaused = false;
@@ -21,17 +15,17 @@ class Level2 extends Scene{
     private engine:Engine = Engine.getEngine();
     
     public  KeyUpHandler = (event: KeyboardEvent) => {
-        this.character.KeyUpHandler(event);
+        //keyhandler del boss
     };
     public  KeyDownHandler = (event: KeyboardEvent) => {
         const {key} = event;
-
-        this.character.keyDownHandler(event);
+        
+        //llamar la funcion del keyhandler del boss
 
         switch(key){ 
             case "p":
-                this.isPaused = !this.isPaused;
-                break;
+            this.isPaused = !this.isPaused;
+            break;
 
             case "Escape":
                 this.soundtrack.pause();
@@ -41,35 +35,15 @@ class Level2 extends Scene{
     };
 
     enter = () => {
-        this.character = new Character();
-        this.moneda = new Moneda();
         this.soundtrack.volume = 0.2;
         this.soundtrack.loop = true;
         this.soundtrack.play();
-        for(let x = 0; x < 4; x++){
-            this.lasers.push(new Laser())
-        }
     }
 
     public update = () => {
-        if (!this.isPaused) { // If it is in tutorial or paused update is paused
-            this.character.update();
-            this.moneda.update();
-            this.character.checkCollisionCoin(this.moneda);
-            for(let x = 0; x < 4; x++){
-                this.lasers[x].update();
-                if(this.lasers[x].checkCollisionBool(this.character, this.engine)){
-                    this.soundtrack.pause();
-                }
-                this.lasers[x].checkCollision(this.character, this.engine, this.moneda);
-            }
-
-            this.character.checkCollisionCoin(this.moneda);
-
-            if (this.character.getScore() === 25) {
-                this.soundtrack.pause();
-                this.engine.setCurrentScene(new VicotryScene());
-            }
+        if (!this.isPaused) { 
+            //uupdate de boss y el if de vitory 
+            
         }
         
     }
@@ -80,11 +54,6 @@ class Level2 extends Scene{
         const height = context.canvas.height;
 
         this.background.render();
-        this.character.render();
-        this.moneda.render();
-        for(let x = 0; x < 4; x++){
-            this.lasers[x].render();
-        }
         
 
         if (this.isPaused) { // Paused menu
@@ -109,4 +78,4 @@ class Level2 extends Scene{
     }
 }
 
-export default Level2;
+export default BossFight;
