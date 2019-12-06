@@ -6,7 +6,6 @@ import Background from "../Background";
 import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
-import VicotryScene from "./VictoryScene";
 import GameContext from "../GameContext";
 import Level2 from "./BossFight";
 

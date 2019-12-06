@@ -6,8 +6,8 @@ import Background from "../Background2";
 import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
-import VicotryScene from "./VictoryScene";
 import GameContext from "../GameContext";
+import BossFight from "./BossFight";
 
 class Level2 extends Scene{
 
@@ -68,7 +68,7 @@ class Level2 extends Scene{
 
             if (this.character.getScore() === 25) {
                 this.soundtrack.pause();
-                this.engine.setCurrentScene(new VicotryScene());
+                this.engine.setCurrentScene(new BossFight());
             }
         }
         

@@ -1,4 +1,5 @@
 import GameContext from "./GameContext";
+import hurtSound from "/assets/hurt.ogg";
 // importar sprite y sonido
 
 type coords = [number, number];
@@ -18,6 +19,13 @@ class Boss {
     private TopSide = this.position[1];
     private BottomSide = this.position[1] + this.bossHeight;
 
+    // Sprites and sounds
+    private hurtsound = new Audio(hurtSound);
+
+    constructor () {
+        // poner sprite y posicion si se ocupa
+    }
+
     public mouseDownHandler = (event: MouseEvent) => { // checks if the player click the mouse
         if (event.type === "mousedown") {
             this.click = true;
@@ -32,7 +40,12 @@ class Boss {
         // Mouse has to be over the boss to hurt him
         if (event.offsetX < this.RightSide  && event.offsetX > this.LeftSide && event.offsetY < this.BottomSide && event.offsetY > this.TopSide) {
             if (this.click) { // If click is true the boss is hurt and changes position
-                // call function to change position
+                // call function to change position and play sound
+                if(this.hurtsound.paused) {
+                    this.hurtsound.play();
+                    // aqui va la funcion de cambiar posicion
+                    // this.score += 1; counter para vida o sera barra de vida?
+                }
             }
         }
 

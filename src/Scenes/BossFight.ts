@@ -2,7 +2,7 @@ import Scene from "./Scene";
 import Engine from "../Engine";
 import MenuScene from "./MenuScene";
 import Background from "../Background3";
-import Soundtrack from "/assets/soundtrack.mp3";
+import Soundtrack from "/assets/bossfightsong.mp3";
 import VicotryScene from "./VictoryScene";
 import GameContext from "../GameContext";
 
