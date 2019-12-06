@@ -1,16 +1,16 @@
-import Scene from "./Scene"
+import Scene from "./Scene";
 import Character from "../Character/Character";
 import Engine from "../Engine";
 import MenuScene from "./MenuScene";
-import Background from "../Background";
+import Background from "../Background2";
 import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
 import VicotryScene from "./VictoryScene";
 import GameContext from "../GameContext";
-import Level2 from "./Level2";
 
-class Playing extends Scene {
+class Level2 extends Scene{
+
     private lasers: Laser[] = [];
     private character: Character = null;
     private moneda: Moneda = null;
@@ -19,7 +19,6 @@ class Playing extends Scene {
     private isPaused = false;
     private tutorial = true;
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
-    private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
     private engine:Engine = Engine.getEngine();
     
     public  KeyUpHandler = (event: KeyboardEvent) => {
@@ -34,11 +33,6 @@ class Playing extends Scene {
             case "p":
                 if (this.tutorial === false)
                     this.isPaused = !this.isPaused;
-                break;
-            
-            case "t":
-                if (this.isPaused === false)
-                    this.tutorial = !this.tutorial;
                 break;
 
             case "Escape":
@@ -60,7 +54,7 @@ class Playing extends Scene {
     }
 
     public update = () => {
-        if (!this.isPaused && !this.tutorial) { // If it is in tutorial or paused update is paused
+        if (!this.isPaused) { // If it is in tutorial or paused update is paused
             this.character.update();
             this.moneda.update();
             this.character.checkCollisionCoin(this.moneda);
@@ -74,9 +68,9 @@ class Playing extends Scene {
 
             this.character.checkCollisionCoin(this.moneda);
 
-            if (this.character.getScore() === 10) {
+            if (this.character.getScore() === 25) {
                 this.soundtrack.pause();
-                this.engine.setCurrentScene(new Level2());
+                this.engine.setCurrentScene(new VicotryScene());
             }
         }
         
@@ -94,25 +88,6 @@ class Playing extends Scene {
             this.lasers[x].render();
         }
         
-        if (this.tutorial) { // Tutorial text
-            context.save();
-            context.globalAlpha = 0.5;
-            context.rect(200,200,400,400);
-            context.fillStyle = "#1E63B3"; // buscar que color queda mejor con el fondo
-            context.fill();
-            context.restore();
-            
-            context.save();
-            context.beginPath();
-            context.textAlign = "center";
-            context.fillStyle = "white"; // buscar que color queda mejor con el cuadro y fondo
-            context.font = "30px sans"
-            for (let i = 0; i < this.tutorialInstructions.length; i++){
-                context.fillText(this.tutorialInstructions[i], width / 2, height / 3 + i * 70);
-            }
-            context.closePath();
-            context.restore();
-        }
 
         if (this.isPaused) { // Paused menu
             context.save();
@@ -136,4 +111,4 @@ class Playing extends Scene {
     }
 }
 
-export default Playing;
+export default Level2;
