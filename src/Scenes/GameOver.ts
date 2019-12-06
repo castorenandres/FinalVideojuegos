@@ -10,8 +10,10 @@ class GameOver   extends Scene {
     private backgroundImage = new Image();
     private currentOption: number = 0;
     private options = ["menu", "Play again"];
+    private engine:Engine = Engine.getEngine();
+
     public enter = () => {};
-    public  update = (engine:Engine) => {};
+    public  update = () => {};
     public  render = () => {
         const context = GameContext.context;
         const width = context.canvas.width;
@@ -39,7 +41,7 @@ class GameOver   extends Scene {
 
     public handleMouseDown = (event: MouseEvent) => {};
     public  KeyUpHandler = (event: KeyboardEvent) => {};
-    public  KeyDownHandler = (event: KeyboardEvent, engine: Engine) => {
+    public  KeyDownHandler = (event: KeyboardEvent) => {
         const key = event.key;
 
         switch(key) {
@@ -53,9 +55,9 @@ class GameOver   extends Scene {
 
             case "Enter":
                 if (this.currentOption === 0){
-                    engine.setCurrentScene(new MenuScene());
+                    this.engine.setCurrentScene(new MenuScene());
                 } else if (this.currentOption === 1) { 
-                    engine.setCurrentScene(new Playing());
+                    this.engine.setCurrentScene(new Playing());
                 }
                 break;
         };

@@ -19,9 +19,10 @@ class Playing extends Scene {
     private tutorial = true;
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
     private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
+    private engine:Engine = Engine.getEngine();
     
     public  KeyUpHandler = (event: KeyboardEvent) => {};
-    public  KeyDownHandler = (event: KeyboardEvent, engine: Engine) => {
+    public  KeyDownHandler = (event: KeyboardEvent) => {
         const {key} = event;
 
         this.character.keyDownHandler(event);
@@ -39,7 +40,7 @@ class Playing extends Scene {
 
             case "Escape":
                 this.soundtrack.pause();
-                engine.setCurrentScene(new MenuScene());
+                this.engine.setCurrentScene(new MenuScene());
                 break;
         }
     };
@@ -55,24 +56,24 @@ class Playing extends Scene {
         }
     }
 
-    public update = (engine:Engine) => {
+    public update = () => {
         if (!this.isPaused && !this.tutorial) {
             this.character.update();
             this.moneda.update();
             this.character.checkCollisionCoin(this.moneda);
             for(let x = 0; x < 4; x++){
                 this.lasers[x].update();
-                if(this.lasers[x].checkCollisionBool(this.character, engine)){
+                if(this.lasers[x].checkCollisionBool(this.character, this.engine)){
                     this.soundtrack.pause();
                 }
-                this.lasers[x].checkCollision(this.character, engine, this.moneda);
+                this.lasers[x].checkCollision(this.character, this.engine, this.moneda);
             }
 
             this.character.checkCollisionCoin(this.moneda);
 
             if (this.character.getScore() === 10) {
                 this.soundtrack.pause();
-                engine.setCurrentScene(new VicotryScene());
+                this.engine.setCurrentScene(new VicotryScene());
             }
         }
         
