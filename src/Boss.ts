@@ -9,6 +9,7 @@ class Boss {
     private bossHeight: number = 80;
     private sWidth = 57; // sprite width
     private sHeight = 80; // sprite height
+    private offsetx: number = 62.1; // Sprite offset
     private frameCounter = 0;
     private currentCharFrame = 0;
     private click: boolean = false; // flag for mouse click
