@@ -39,7 +39,7 @@ class Moneda {
         this.spritemoneda.src = spriteMoneda;
         this.moneda = this.spritemoneda;
 
-        this.position = [(this.random(5) * 125) + 87.5 + 35, (this.random(5) * 125) + 87.5 + 35];
+        this.position = [(this.random(5) * 160) + 55, (this.random(5) * 160) + 55];
     }
 
     public update = () => {
@@ -75,7 +75,7 @@ class Moneda {
     }
 
     public changeCoinPosition(){
-        this.position = [(this.random(5) * 125) + 87.5 + 35, (this.random(5) * 125) + 87.5 + 35]
+        this.position = [(this.random(5) * 160) + 80 - this.monedaWidth, (this.random(5) * 160) + 80 - this.monedaHeight]
         
     }
 
