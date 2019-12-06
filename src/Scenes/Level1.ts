@@ -55,7 +55,7 @@ class Playing extends Scene {
         if (!this.soundtrack.paused)
             this.soundtrack.pause();
         this.soundtrack.play();
-        for(let x = 0; x < 4; x++){
+        for(let x = 0; x < 2; x++){
             this.lasers.push(new Laser())
         }
     }
@@ -65,7 +65,7 @@ class Playing extends Scene {
             this.character.update();
             this.moneda.update();
             this.character.checkCollisionCoin(this.moneda);
-            for(let x = 0; x < 4; x++){
+            for(let x = 0; x < 2; x++){
                 this.lasers[x].update();
                 if(this.lasers[x].checkCollisionBool(this.character, this.engine)){
                     this.soundtrack.pause();
@@ -75,7 +75,7 @@ class Playing extends Scene {
 
             this.character.checkCollisionCoin(this.moneda);
 
-            if (this.character.getScore() === 5) {
+            if (this.character.getScore() === 10) {
                 this.soundtrack.pause();
                 this.engine.setCurrentScene(new Level2()); // pasa a Storypt2
             }
@@ -91,7 +91,7 @@ class Playing extends Scene {
         this.background.render();
         this.character.render();
         this.moneda.render();
-        for(let x = 0; x < 4; x++){
+        for(let x = 0; x < 2; x++){
             this.lasers[x].render();
         }
         

@@ -17,10 +17,10 @@ class laser{
     private horizontal: boolean = null;
     
     // hitbox
-    private RightSide = this.position[0] + this.laser.naturalWidth/2;
+    private RightSide = this.position[0] + this.laser.naturalWidth;
     private LeftSide = this.position[0];
     private TopSide = this.position[1];
-    private BottomSide = this.position[1] + this.laser.naturalHeight/2;
+    private BottomSide = this.position[1] + this.laser.naturalHeight;
 
     constructor(){
         this.laser.src = laserImage;
