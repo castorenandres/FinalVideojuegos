@@ -1,11 +1,12 @@
 import Character from "./Character";
-import IdleState from "./IdleState";
-import DeadState from "./DeadState";
+import Engine from "../Engine";
 
 abstract class CharacterState {
     protected character: Character = null;
+    protected engine:Engine = null;
     constructor (char:Character) {
         this.character = char;
+        this.engine = Engine.getEngine();
     }
 
     public abstract enter = () => {};

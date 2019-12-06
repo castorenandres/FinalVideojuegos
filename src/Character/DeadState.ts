@@ -1,5 +1,6 @@
 import CharacterState from "./CharacterState";
 import spriteDead from "/assets/spritesheetKnightDeadNew.png";
+import GameOver from "../Scenes/GameOver";
 
 class DeadState extends CharacterState { // Solamente cambia de sprite
 
@@ -14,9 +15,9 @@ class DeadState extends CharacterState { // Solamente cambia de sprite
     public update =()=> { // checar si se arma singltone sino mandar engine
         this.framecounter ++;
 
-        //if (this.framecounter >= 60) {
-            // cambia escena
-        //}
+        if (this.framecounter >= 11) {
+            this.engine.setCurrentScene(new GameOver());
+        }
         
     }
 };

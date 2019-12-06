@@ -15,13 +15,11 @@ class Character {
     private sHeight = 80; // sprite height
     private frameCounter = 0;
     private currentCharFrame = 0;
-    private click: boolean = false; // flag for mouse click
     private character = new Image();
-    private lastMouseEvent: string = "";
-    private currentMouseEvent: string = "";
-    private offsetx: number = 62.1;
     private score: number = 0;
     private state: CharState = null;
+    private currentMovement; // either W, A, S, or D
+    private charSpeed = 160;    
 
     // hitbox
     private RightSide = this.position[0] + this.charWidth; 
@@ -68,8 +66,6 @@ class Character {
         this.position = [(width - this.charWidth) / 2, (height - this.charHeight) / 2 ];
     };
 
-    public  updateSprite = (stateChar: CharState) => {};
-
 
     public checkCollisionCoin = (moneda: Moneda) => { 
         const mRight = moneda.getRightSide() + 20;
@@ -93,77 +89,80 @@ class Character {
         this.state.enter();
     };
 
-    public keyDownHandler = (event: KeyboardEvent) => {
+    public  KeyUpHandler = (event: KeyboardEvent) => {
         const key = event.key;
-        const {context} = GameContext;
-        const {width, height} = context.canvas;
 
         switch (key) {
             case "a":
-                if (this.position[0] > 80)
-                    this.position[0] -= 80;
+                this.currentMovement = "";
                 break;
 
             case "d":
-                if (this.position[0] < (width - this.charWidth) - 80)
-                    this.position[0] += 80;
+                this.currentMovement = "";
                 break;
 
             case "w":
-                if (this.position[1] > 80)
-                    this.position[1] -= 80;
+                this.currentMovement = "";
                 break;
             
             case "s":
-                if (this.position[1] < (height - this.charHeight) - 80)
-                    this.position[1] += 80;
+                this.currentMovement = "";
+                break;
         }
     };
 
-    public mouseMovementHandler = (event: MouseEvent) => { // se puede usar esto con el boss
-        let [coordx, coordy] = this.position;
+    public keyDownHandler = (event: KeyboardEvent) => {
+        const key = event.key;
+        
 
-        // Mouse has to be over the character to move
-        if (event.offsetX < this.RightSide  && event.offsetX > this.LeftSide && event.offsetY < this.BottomSide && event.offsetY > this.TopSide) {
-            if (event.type === "mousedown" && (this.currentMouseEvent === "" || this.currentMouseEvent === "mouseup")){
-                this.click = true;
-                this.lastMouseEvent = this.currentMouseEvent;
-                this.currentMouseEvent = "mousedown";
-                this.currentCharFrame = 0;
-            } else if (event.type === "mouseup" && this.currentMouseEvent === "mousedown") {
-                this.click = false;
-                this.lastMouseEvent = this.currentMouseEvent;
-                this.currentMouseEvent = "mouseup";
-                this.currentCharFrame = 0;
-            } else if (event.type === "mousedown" && this.currentMouseEvent === "mousedown") {
-                this.click = true;
-                this.lastMouseEvent = this.currentMouseEvent;
-                this.currentMouseEvent = "mousedown";
-            }
-        }
+        switch (key) {
+            case "a":
+                this.currentMovement = "a";
+                break;
 
-        if (this.click) { // If click is true, the character moves to the center of the cursor
-            coordx = (event.offsetX - this.charWidth / 2);
-            coordy = (event.offsetY - this.charHeight / 2);
+            case "d":
+                this.currentMovement = "d";
+                break;
+
+            case "w":
+                this.currentMovement = "w";
+                break;
+            
+            case "s":
+                this.currentMovement = "s";
+                break;
         }
-        this.position = [coordx, coordy]; // updates the new position of the character
     };
-
 
     public update = () => {
+        const {context} = GameContext;
+        const {width, height} = context.canvas;
+
         this.RightSide = this.position[0] + this.charWidth;
         this.LeftSide = this.position[0];
         this.TopSide = this.position[1];
         this.BottomSide = this.position[1] + this.charHeight;
 
-        this.frameCounter += 1;  
-        if (this.frameCounter % 6 === 0) {
-            this.currentCharFrame = (this.currentCharFrame + 1) % 10;
+        if (this.position[0] > 80 && this.currentMovement === "a") {
+            this.position[0] -= this.charSpeed;
+            this.currentMovement = "";
+        } else if (this.position[0] < (width - this.charWidth) - 80 && this.currentMovement === "d") {
+            this.position[0] += this.charSpeed;
+            this.currentMovement = "";
+        } else if (this.position[1] > 80 && this.currentMovement === "w") {
+            this.position[1] -= this.charSpeed;
+            this.currentMovement = "";
+        } else if (this.position[1] < (height - this.charHeight) - 80 && this.currentMovement === "s") {
+            this.position[1] += this.charSpeed;
+            this.currentMovement = "";
         }
 
-
-       
-
+        this.state.update();
+        
+        this.frameCounter += 1;  
+        if (this.frameCounter % 6 === 0) {
+            this.currentCharFrame = (this.currentCharFrame + 1) % 10; 
+        }
     };
 
     public render = () => {

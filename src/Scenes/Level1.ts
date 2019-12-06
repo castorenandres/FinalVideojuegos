@@ -21,7 +21,9 @@ class Playing extends Scene {
     private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
     private engine:Engine = Engine.getEngine();
     
-    public  KeyUpHandler = (event: KeyboardEvent) => {};
+    public  KeyUpHandler = (event: KeyboardEvent) => {
+        this.character.KeyUpHandler(event);
+    };
     public  KeyDownHandler = (event: KeyboardEvent) => {
         const {key} = event;
 
@@ -57,7 +59,7 @@ class Playing extends Scene {
     }
 
     public update = () => {
-        if (!this.isPaused && !this.tutorial) {
+        if (!this.isPaused && !this.tutorial) { // If it is in tutorial or paused update is paused
             this.character.update();
             this.moneda.update();
             this.character.checkCollisionCoin(this.moneda);
@@ -91,7 +93,7 @@ class Playing extends Scene {
             this.lasers[x].render();
         }
         
-        if (this.tutorial) {
+        if (this.tutorial) { // Tutorial text
             context.save();
             context.globalAlpha = 0.5;
             context.rect(200,200,400,400);
@@ -111,7 +113,7 @@ class Playing extends Scene {
             context.restore();
         }
 
-        if (this.isPaused) {
+        if (this.isPaused) { // Paused menu
             context.save();
             context.globalAlpha = 0.5;
             context.rect(200,200,400,400);
