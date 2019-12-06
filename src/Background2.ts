@@ -1,13 +1,12 @@
-import Playing from "./Scenes/Level1"
 import background from "/assets/Prueba1.jpg";
 import GameContext from "./GameContext";
-import Level2 from "./Scenes/BossFight"
-class Background{
+import Level2 from "./Scenes/Level2"
+class Background2{
     private backgroundImage = new Image ();
-    private playingScene: Playing = null;
+    private level2: Level2 = null;
     
-    constructor(playingScene: Playing){
-        this.playingScene = playingScene; 
+    constructor(level2: Level2){
+        this.level2 = level2; 
     }
     
     public render = () =>{
@@ -25,4 +24,4 @@ class Background{
     }
 }
 
-export default Background;
+export default Background2;
