@@ -1,7 +1,7 @@
 import Scene from "./Scene";
 import GameContext from "../GameContext";
 import Engine from "../Engine";
-import Playing from "./Playing";
+import Playing from "./Level1";
 import Creditos from "./Creditos"
 
 class MenuScene extends Scene {

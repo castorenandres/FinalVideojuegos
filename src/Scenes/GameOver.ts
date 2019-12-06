@@ -3,7 +3,7 @@ import GameContext from "../GameContext";
 import Engine from "../Engine";
 import MenuScene from "./MenuScene";
 import background from "/assets/GameOverBG.jpg"
-import Playing from "./Playing";
+import Playing from "./Level1";
 
 
 class GameOver   extends Scene {

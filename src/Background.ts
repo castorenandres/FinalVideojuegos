@@ -1,4 +1,4 @@
-import Playing from "./Scenes/Playing"
+import Playing from "./Scenes/Level1"
 import background from "/assets/pa.jpg";
 import GameContext from "./GameContext";
 class Background{
