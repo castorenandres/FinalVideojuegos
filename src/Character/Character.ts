@@ -53,7 +53,7 @@ class Character {
         return this.score;
     }
 
-    public setSprite (spriteState) { //checar y como asignar el sprite inicial
+    public setSprite (spriteState) { 
         this.sprite.src = spriteState;
     }
 

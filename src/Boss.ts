@@ -1,7 +1,6 @@
 import GameContext from "./GameContext";
 import hurtSound from "/assets/hurt.ogg";
 import spriteBoss from "/assets/BossSprite.png"
-// importar sprite y sonido
 
 type coords = [number, number];
 
@@ -14,7 +13,7 @@ class Boss {
     private frameCounter = 0;
     private checkClick: boolean = false;
     private clickCounter = 0;
-    private checkSound: boolean = false;
+    private checkSound: boolean = false; // flag to play sound
 
     private spriteBoss = new Image();
 
@@ -28,7 +27,6 @@ class Boss {
     private hurtsound = new Audio(hurtSound);
 
     constructor () {
-        // poner sprite y posicion si se ocupa
         this.spriteBoss.src = spriteBoss;
         this.boss = this.spriteBoss;
         this.hurtsound.volume = 1;
@@ -65,7 +63,6 @@ class Boss {
     public changeBossPosition = () => {
             this.position = [(this.random(5) * 160) + 10 , (this.random(5) * 160) + 10 ];
     };
-     // no se que mas se ocupe
 
     public update = () => {
         // update hitbox

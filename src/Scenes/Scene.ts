@@ -1,4 +1,3 @@
-import Engine from "../Engine";
 abstract class Scene {
     abstract enter = () => {};
     public abstract update = () => {};

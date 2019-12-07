@@ -21,7 +21,6 @@ import level1 from "./Level1"
         this.soundtrack.volume = 0.2;
         this.soundtrack.loop = true; 
         this.soundtrack.play();
-        //this.typeEffect();
     };
     public update = () => {
         const context = GameContext.context;

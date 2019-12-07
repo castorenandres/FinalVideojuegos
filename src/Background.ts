@@ -1,7 +1,7 @@
 import Playing from "./Scenes/Level1"
 import background from "/assets/Prueba1.jpg";
 import GameContext from "./GameContext";
-import Level2 from "./Scenes/BossFight"
+
 class Background{
     private backgroundImage = new Image ();
     private playingScene: Playing = null;

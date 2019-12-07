@@ -108,7 +108,7 @@ class Playing extends Scene {
             context.save();
             context.beginPath();
             context.textAlign = "center";
-            context.fillStyle = "white"; // buscar que color queda mejor con el cuadro y fondo
+            context.fillStyle = "white"; 
             context.font = "30px sans"
             for (let i = 0; i < this.tutorialInstructions.length; i++){
                 context.fillText(this.tutorialInstructions[i], width / 2, height / 3.5 + i * 70);
@@ -121,14 +121,14 @@ class Playing extends Scene {
             context.save();
             context.globalAlpha = 0.5;
             context.rect(200,200,400,400);
-            context.fillStyle = "#DB00F5"; // buscar que color queda mejor con el fondo
+            context.fillStyle = "#DB00F5"; 
             context.fill();
             context.restore();
 
             context.save();
             context.beginPath();
             context.textAlign = "center";
-            context.fillStyle = "white"; // buscar que color queda mejor con el cuadro y fondo
+            context.fillStyle = "white"; 
             context.font = "30px sans"
             for (let i = 0; i < this.optionsPause.length; i++){
                 context.fillText(this.optionsPause[i], width / 2, height / 2.25 + i * 70);
