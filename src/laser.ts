@@ -15,6 +15,8 @@ class laser{
     private laser = new Image();
     private axis: number = null;
     private horizontal: boolean = null;
+    private busyColumns = new Array(5).fill(false);
+    private busyLines = new Array(5).fill(false);
     
     // hitbox
     private RightSide = this.position[0] + this.laser.naturalWidth;
@@ -32,15 +34,25 @@ class laser{
 
         if(this.axis < .5){
             //Vertial
-            posX = (this.random(5) * 160) + 60
+            let columna = this.random(5);
+            while(this.busyColumns[columna]){
+                columna = this.random(5);   
+            }
+            this.busyColumns[columna] = true;
+            posX = (columna * 160) + 60
             this.position = [posX, 0]
             this.horizontal = false;
+            
         }else{
             //Horizontal
-            posY = (this.random(5) * 160) + 60
+            let line = this.random(5);
+            while(this.busyLines[line]){
+                line = this.random(5);
+            }   
+            this.busyLines[line] = true;
+            posY = (line * 160) + 60
             this.position = [0, posY]
             this.horizontal = true;
-            //Rotate 90 degrees
         }
  
     }
@@ -77,18 +89,31 @@ class laser{
         
         
         if(posY != -50 && posX != -50){
+            
             if(posY < 0 || posY > width || posX < 0 || posX > width){
+                this.speed = 250 + (Math.random() * 50)
                 if(this.axis < .5){
-                    //Vertial
-                    posX = (this.random(5) * 160) + 60
+                    //Vertical
+                    this.busyColumns[posX/160-60] = false;
+                    let columna = this.random(5);
+                    while(this.busyColumns[columna]){
+                        columna = this.random(5);   
+                    }
+                    this.busyColumns[columna] = true;
+                    posX = (columna * 160) + 60
                     this.position = [posX, 0]
                     this.horizontal = false;
                 }else{
                     //Horizontal
-                    posY = (this.random(5) * 160) + 60
+                    this.busyLines[posY/160-60] = false;
+                    let line = this.random(5);
+                    while(this.busyLines[line]){
+                        line = this.random(5);
+                    }   
+                    this.busyLines[line] = true;
+                    posY = (line * 160) + 60
                     this.position = [0, posY]
                     this.horizontal = true;
-                    //Rotate 90 degrees
                 }
             }
         }

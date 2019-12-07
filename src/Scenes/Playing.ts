@@ -6,13 +6,9 @@ import Background from "../Background";
 import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
+import VicotryScene from "./VictoryScene";
 import GameContext from "../GameContext";
-<<<<<<< HEAD
-import Level2 from "./BossFight";
-import StoryPt1 from "./StoryPt1";
-=======
-import Level2 from "./Level2";
->>>>>>> daedc8337bc5bf6780a9a783c23ab826d2a116c0
+import LaserManager from "../LaserManager"
 
 class Playing extends Scene {
     private lasers: Laser[] = [];
@@ -25,12 +21,8 @@ class Playing extends Scene {
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
     private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
     private engine:Engine = Engine.getEngine();
-
-    public handleMouseDown = (event: MouseEvent) => {};
     
-    public  KeyUpHandler = (event: KeyboardEvent) => {
-        this.character.KeyUpHandler(event);
-    };
+    public  KeyUpHandler = (event: KeyboardEvent) => {};
     public  KeyDownHandler = (event: KeyboardEvent) => {
         const {key} = event;
 
@@ -43,8 +35,7 @@ class Playing extends Scene {
                 break;
             
             case "t":
-                if (this.isPaused === false)
-                    this.tutorial = !this.tutorial;
+                this.tutorial = !this.tutorial;
                 break;
 
             case "Escape":
@@ -59,20 +50,18 @@ class Playing extends Scene {
         this.moneda = new Moneda();
         this.soundtrack.volume = 0.2;
         this.soundtrack.loop = true;
-        if (!this.soundtrack.paused)
-            this.soundtrack.pause();
         this.soundtrack.play();
-        for(let x = 0; x < 2; x++){
+        for(let x = 0; x < 4; x++){
             this.lasers.push(new Laser())
         }
     }
 
     public update = () => {
-        if (!this.isPaused && !this.tutorial) { // If it is in tutorial or paused update is paused
+        if (!this.isPaused && !this.tutorial) {
             this.character.update();
             this.moneda.update();
             this.character.checkCollisionCoin(this.moneda);
-            for(let x = 0; x < 2; x++){
+            for(let x = 0; x < 4; x++){
                 this.lasers[x].update();
                 if(this.lasers[x].checkCollisionBool(this.character, this.engine)){
                     this.soundtrack.pause();
@@ -82,13 +71,9 @@ class Playing extends Scene {
 
             this.character.checkCollisionCoin(this.moneda);
 
-            if (this.character.getScore() === 5) {
+            if (this.character.getScore() === 10) {
                 this.soundtrack.pause();
-<<<<<<< HEAD
-                this.engine.setCurrentScene(new StoryPt1());
-=======
-                this.engine.setCurrentScene(new Level2()); // pasa a Storypt2
->>>>>>> daedc8337bc5bf6780a9a783c23ab826d2a116c0
+                this.engine.setCurrentScene(new VicotryScene());
             }
         }
         
@@ -102,22 +87,22 @@ class Playing extends Scene {
         this.background.render();
         this.character.render();
         this.moneda.render();
-        for(let x = 0; x < 2; x++){
+        for(let x = 0; x < 4; x++){
             this.lasers[x].render();
         }
         
-        if (this.tutorial) { // Tutorial text
+        if (this.tutorial) {
             context.save();
-            context.globalAlpha = 0.5;
+            //context.globalAlpha = 0.5;
             context.rect(200,200,400,400);
-            context.fillStyle = "#1E63B3"; // buscar que color queda mejor con el fondo
+            context.fillStyle = "#1E63B3";
             context.fill();
             context.restore();
             
             context.save();
             context.beginPath();
             context.textAlign = "center";
-            context.fillStyle = "white"; // buscar que color queda mejor con el cuadro y fondo
+            context.fillStyle = "white";
             context.font = "30px sans"
             for (let i = 0; i < this.tutorialInstructions.length; i++){
                 context.fillText(this.tutorialInstructions[i], width / 2, height / 3 + i * 70);
@@ -126,18 +111,18 @@ class Playing extends Scene {
             context.restore();
         }
 
-        if (this.isPaused) { // Paused menu
+        if (this.isPaused) {
             context.save();
             context.globalAlpha = 0.5;
             context.rect(200,200,400,400);
-            context.fillStyle = "#DB00F5"; // buscar que color queda mejor con el fondo
+            context.fillStyle = "white";
             context.fill();
             context.restore();
 
             context.save();
             context.beginPath();
             context.textAlign = "center";
-            context.fillStyle = "white"; // buscar que color queda mejor con el cuadro y fondo
+            context.fillStyle = "#F55600";
             context.font = "30px sans"
             for (let i = 0; i < this.optionsPause.length; i++){
                 context.fillText(this.optionsPause[i], width / 2, height / 2.25 + i * 70);
