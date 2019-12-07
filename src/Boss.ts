@@ -75,7 +75,7 @@ class Boss {
         this.BottomSide = this.position[1] + this.bossHeight;
 
         this.frameCounter++;
-        if (this.frameCounter >= 40) {
+        if (this.frameCounter >= 45) {
             this.changeBossPosition();
             this.frameCounter = 0;
         }

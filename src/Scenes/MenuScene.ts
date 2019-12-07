@@ -3,7 +3,8 @@ import GameContext from "../GameContext";
 import Engine from "../Engine";
 import Creditos from "./Creditos";
 import background from "/assets/MenuScene.png"
-import StoryPt1 from "./Level1";
+import StoryPt1 from "./StoryPt1";
+
 
 class MenuScene extends Scene {
     private backgroundImage = new Image();

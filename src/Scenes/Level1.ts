@@ -7,7 +7,7 @@ import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
 import GameContext from "../GameContext";
-import StoryPt2 from "./Level2";
+import StoryPt2 from "./StoryPt2";
 
 class Playing extends Scene {
     private lasers: Laser[] = [];

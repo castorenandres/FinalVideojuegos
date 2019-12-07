@@ -7,7 +7,7 @@ import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
 import GameContext from "../GameContext";
-import BossFight from "./BossFight";
+import StoryPt3 from "./StoryPt3";
 
 class Level2 extends Scene{
 
@@ -69,7 +69,7 @@ class Level2 extends Scene{
 
             if (this.character.getScore() === 15) {
                 this.soundtrack.pause();
-                this.engine.setCurrentScene(new BossFight());
+                this.engine.setCurrentScene(new StoryPt3());
             }
         }
         
