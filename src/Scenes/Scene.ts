@@ -4,7 +4,7 @@ abstract class Scene {
     public abstract update = () => {};
     public abstract render = () => {};
 
-    public handleMouseDown = (event: MouseEvent) => {};
+    public abstract handleMouseDown = (event: MouseEvent) => {};
     public abstract KeyUpHandler = (event: KeyboardEvent) => {};
     public abstract KeyDownHandler = (event: KeyboardEvent) => {};
 };

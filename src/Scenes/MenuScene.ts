@@ -23,12 +23,6 @@ class MenuScene extends Scene {
         const naturalHeight = this.backgroundImage.naturalHeight;
 
         context.save();
-        context.rect(0, 0, 800, 800);
-        context.fillStyle = "#a61b11"
-        context.fill();
-        context.restore();
-
-        context.save();
         context.beginPath();
         context.drawImage(this.backgroundImage, 0, 0, naturalWidth, naturalHeight);
         context.textAlign = "center";
@@ -46,8 +40,8 @@ class MenuScene extends Scene {
         context.restore();
     };
     public handleMouseDown = (event: MouseEvent) => {};
-    public  KeyUpHandler = (event: KeyboardEvent) => {};
-    public  KeyDownHandler = (event: KeyboardEvent) => {
+    public KeyUpHandler = (event: KeyboardEvent) => {};
+    public KeyDownHandler = (event: KeyboardEvent) => {
 
         const key = event.key;
 
@@ -60,7 +54,11 @@ class MenuScene extends Scene {
                 break;
             case "Enter":
                 if(this.currenOption == 0) {
+<<<<<<< HEAD
                     this.engine.setCurrentScene (new StoryPt1());
+=======
+                    this.engine.setCurrentScene (new Playing()); // se va a Storypt1
+>>>>>>> daedc8337bc5bf6780a9a783c23ab826d2a116c0
                 }
                 if(this.currenOption == 1) {
                     this.engine.setCurrentScene(new Creditos());

@@ -1,29 +1,28 @@
-import Scene from "./Scene";
+import Scene from "./Scene"
 import Character from "../Character/Character";
 import Engine from "../Engine";
 import MenuScene from "./MenuScene";
-import Background from "../Background2";
+import Background from "../Background";
 import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
+import VicotryScene from "./VictoryScene";
 import GameContext from "../GameContext";
-import BossFight from "./BossFight";
+import LaserManager from "../LaserManager"
 
-class Level2 extends Scene{
-
+class Playing extends Scene {
     private lasers: Laser[] = [];
     private character: Character = null;
     private moneda: Moneda = null;
     private background = new Background(this);
     private soundtrack = new Audio(Soundtrack);
     private isPaused = false;
+    private tutorial = true;
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
+    private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
     private engine:Engine = Engine.getEngine();
     
-    public handleMouseDown = (event: MouseEvent) => {};
-    public  KeyUpHandler = (event: KeyboardEvent) => {
-        this.character.KeyUpHandler(event);
-    };
+    public  KeyUpHandler = (event: KeyboardEvent) => {};
     public  KeyDownHandler = (event: KeyboardEvent) => {
         const {key} = event;
 
@@ -31,7 +30,12 @@ class Level2 extends Scene{
 
         switch(key){ 
             case "p":
-                this.isPaused = !this.isPaused;
+                if (this.tutorial === false)
+                    this.isPaused = !this.isPaused;
+                break;
+            
+            case "t":
+                this.tutorial = !this.tutorial;
                 break;
 
             case "Escape":
@@ -53,7 +57,7 @@ class Level2 extends Scene{
     }
 
     public update = () => {
-        if (!this.isPaused) { // If the game is paused update is paused
+        if (!this.isPaused && !this.tutorial) {
             this.character.update();
             this.moneda.update();
             this.character.checkCollisionCoin(this.moneda);
@@ -67,9 +71,9 @@ class Level2 extends Scene{
 
             this.character.checkCollisionCoin(this.moneda);
 
-            if (this.character.getScore() === 15) {
+            if (this.character.getScore() === 10) {
                 this.soundtrack.pause();
-                this.engine.setCurrentScene(new BossFight());
+                this.engine.setCurrentScene(new VicotryScene());
             }
         }
         
@@ -87,19 +91,38 @@ class Level2 extends Scene{
             this.lasers[x].render();
         }
         
+        if (this.tutorial) {
+            context.save();
+            //context.globalAlpha = 0.5;
+            context.rect(200,200,400,400);
+            context.fillStyle = "#1E63B3";
+            context.fill();
+            context.restore();
+            
+            context.save();
+            context.beginPath();
+            context.textAlign = "center";
+            context.fillStyle = "white";
+            context.font = "30px sans"
+            for (let i = 0; i < this.tutorialInstructions.length; i++){
+                context.fillText(this.tutorialInstructions[i], width / 2, height / 3 + i * 70);
+            }
+            context.closePath();
+            context.restore();
+        }
 
-        if (this.isPaused) { // Paused menu
+        if (this.isPaused) {
             context.save();
             context.globalAlpha = 0.5;
             context.rect(200,200,400,400);
-            context.fillStyle = "#DB00F5"; // buscar que color queda mejor con el fondo
+            context.fillStyle = "white";
             context.fill();
             context.restore();
 
             context.save();
             context.beginPath();
             context.textAlign = "center";
-            context.fillStyle = "white"; // buscar que color queda mejor con el cuadro y fondo
+            context.fillStyle = "#F55600";
             context.font = "30px sans"
             for (let i = 0; i < this.optionsPause.length; i++){
                 context.fillText(this.optionsPause[i], width / 2, height / 2.25 + i * 70);
@@ -110,4 +133,4 @@ class Level2 extends Scene{
     }
 }
 
-export default Level2;
+export default Playing;

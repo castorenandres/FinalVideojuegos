@@ -9,7 +9,9 @@
     "develop": "parcel index.html -p 8000",
     "format": "prettier --write src/**/*.{js,jsx}"
   },
-  "dependencies": {},
+  "dependencies": {
+    "assets": "^3.0.1"
+  },
   "devDependencies": {
     "parcel-bundler": "^1.12.3",
     "prettier": "^1.18.2",

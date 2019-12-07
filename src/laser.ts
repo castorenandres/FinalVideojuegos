@@ -19,10 +19,10 @@ class laser{
     private busyLines = new Array(5).fill(false);
     
     // hitbox
-    private RightSide = this.position[0] + this.laser.naturalWidth/2;
+    private RightSide = this.position[0] + this.laser.naturalWidth;
     private LeftSide = this.position[0];
     private TopSide = this.position[1];
-    private BottomSide = this.position[1] + this.laser.naturalHeight/2;
+    private BottomSide = this.position[1] + this.laser.naturalHeight;
 
     constructor(){
         this.laser.src = laserImage;
@@ -137,10 +137,10 @@ class laser{
     }
 
     public checkCollision = (Character: Character, engine: Engine, Moneda: Moneda) => {
-        const mRight = Character.getRightSide() + 20;
-        const mLeft = Character.getLeftSide() + 50;
-        const mTop = Character.getTopSide() + 20;
-        const mBottom = Character.getBottomSide() - 20;
+        const mRight = Character.getRightSide();
+        const mLeft = Character.getLeftSide();
+        const mTop = Character.getTopSide();
+        const mBottom = Character.getBottomSide();
 
         if (this.LeftSide  < mRight && this.RightSide > mLeft && this.TopSide < mBottom && this.BottomSide > mTop) {
             this.position = [-50, -50]
@@ -151,10 +151,10 @@ class laser{
     }
 
     public checkCollisionBool = (Character: Character, engine: Engine) => {
-        const mRight = Character.getRightSide() + 20;
-        const mLeft = Character.getLeftSide() + 50;
-        const mTop = Character.getTopSide() + 20;
-        const mBottom = Character.getBottomSide() - 20;
+        const mRight = Character.getRightSide();
+        const mLeft = Character.getLeftSide();
+        const mTop = Character.getTopSide();
+        const mBottom = Character.getBottomSide();
 
         if (this.LeftSide  < mRight && this.RightSide > mLeft && this.TopSide < mBottom && this.BottomSide > mTop) {
             return true;

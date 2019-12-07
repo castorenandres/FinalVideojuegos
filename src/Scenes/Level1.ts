@@ -7,8 +7,12 @@ import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
 import GameContext from "../GameContext";
+<<<<<<< HEAD
 import Level2 from "./BossFight";
 import StoryPt1 from "./StoryPt1";
+=======
+import Level2 from "./Level2";
+>>>>>>> daedc8337bc5bf6780a9a783c23ab826d2a116c0
 
 class Playing extends Scene {
     private lasers: Laser[] = [];
@@ -21,6 +25,8 @@ class Playing extends Scene {
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
     private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
     private engine:Engine = Engine.getEngine();
+
+    public handleMouseDown = (event: MouseEvent) => {};
     
     public  KeyUpHandler = (event: KeyboardEvent) => {
         this.character.KeyUpHandler(event);
@@ -53,8 +59,10 @@ class Playing extends Scene {
         this.moneda = new Moneda();
         this.soundtrack.volume = 0.2;
         this.soundtrack.loop = true;
+        if (!this.soundtrack.paused)
+            this.soundtrack.pause();
         this.soundtrack.play();
-        for(let x = 0; x < 4; x++){
+        for(let x = 0; x < 2; x++){
             this.lasers.push(new Laser())
         }
     }
@@ -64,7 +72,7 @@ class Playing extends Scene {
             this.character.update();
             this.moneda.update();
             this.character.checkCollisionCoin(this.moneda);
-            for(let x = 0; x < 4; x++){
+            for(let x = 0; x < 2; x++){
                 this.lasers[x].update();
                 if(this.lasers[x].checkCollisionBool(this.character, this.engine)){
                     this.soundtrack.pause();
@@ -74,9 +82,13 @@ class Playing extends Scene {
 
             this.character.checkCollisionCoin(this.moneda);
 
-            if (this.character.getScore() === 10) {
+            if (this.character.getScore() === 5) {
                 this.soundtrack.pause();
+<<<<<<< HEAD
                 this.engine.setCurrentScene(new StoryPt1());
+=======
+                this.engine.setCurrentScene(new Level2()); // pasa a Storypt2
+>>>>>>> daedc8337bc5bf6780a9a783c23ab826d2a116c0
             }
         }
         
@@ -90,7 +102,7 @@ class Playing extends Scene {
         this.background.render();
         this.character.render();
         this.moneda.render();
-        for(let x = 0; x < 4; x++){
+        for(let x = 0; x < 2; x++){
             this.lasers[x].render();
         }
         

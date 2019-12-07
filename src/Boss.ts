@@ -1,17 +1,18 @@
 import GameContext from "./GameContext";
 import hurtSound from "/assets/hurt.ogg";
+import spriteBoss from "/assets/BossSprite.png"
 // importar sprite y sonido
 
 type coords = [number, number];
 
 class Boss {
     private position: coords = [0,0];
-    private bossWidth: number = 57; // pendiente
-    private bossHeight: number = 80; // pendiente
-    private sWidth = 57; // sprite width // pendiente
-    private sHeight = 80; // sprite height // pendiente
-    private offsetx: number = 62.1; // Sprite offset // pendiente
+    private bossWidth: number = 140; // pendiente
+    private bossHeight: number = 140; // pendiente
     private click: boolean = false; // flag for mouse click
+    private boss = new Image();
+
+    private spriteBoss = new Image();
 
     // hitbox
     private RightSide = this.position[0] + this.bossWidth; 
@@ -24,18 +25,19 @@ class Boss {
 
     constructor () {
         // poner sprite y posicion si se ocupa
+        this.spriteBoss.src = spriteBoss;
+        this.boss = this.spriteBoss;
+        this.hurtsound.volume = 1;
     }
 
-    public mouseDownHandler = (event: MouseEvent) => { // checks if the player click the mouse
+    public mouseMovementHandler = (event: MouseEvent) => { // Mouse movement for the game
+        let [coordx, coordy] = this.position;
+
         if (event.type === "mousedown") {
             this.click = true;
         } else if (event.type === "mouseup") {
             this.click = false;
         }
-    };
-
-    public mouseMovementHandler = (event: MouseEvent) => { // Mouse movement for the game
-        let [coordx, coordy] = this.position;
 
         // Mouse has to be over the boss to hurt him
         if (event.offsetX < this.RightSide  && event.offsetX > this.LeftSide && event.offsetY < this.BottomSide && event.offsetY > this.TopSide) {
@@ -51,7 +53,15 @@ class Boss {
 
     };
 
-    public changeBossPosition = () => {}; // no se que mas se ocupe
+    public random(max: number){
+        return Math.floor(Math.random() * Math.floor(max))
+    }
+
+    public changeBossPosition = () => {
+        this.position = [(this.random(5) * 160) + 80 - this.bossWidth, (this.random(5) * 160) + 80 - this.bossHeight]
+
+    };
+     // no se que mas se ocupe
 
     public update = () => {
         // no se si se ocupe
@@ -62,20 +72,17 @@ class Boss {
         this.LeftSide = this.position[0];
         this.TopSide = this.position[1];
         this.BottomSide = this.position[1] + this.bossHeight;
-
-        // update posicion y vida/counter de clicks al boss
     };
 
     public render = () => {
         const {context} = GameContext;
         let [xpos, ypos] = this.position;
-        const sy = 0;
 
         // Character
         context.save();
         context.beginPath();
         context.translate(xpos, ypos);
-        context.drawImage(this.character,this.currentCharFrame * this.offsetx, sy, this.sWidth, this.sHeight, 0, 0,this.charWidth,this.charHeight);
+        context.drawImage(this.boss, xpos, ypos);
         context.closePath();
         context.restore();
     };

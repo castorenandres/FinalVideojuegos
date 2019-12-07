@@ -4,6 +4,7 @@ import MenuScene from "./MenuScene";
 import Background from "../Background3";
 import Soundtrack from "/assets/bossfightsong.mp3";
 import VicotryScene from "./VictoryScene";
+import Boss from "../Boss";
 import GameContext from "../GameContext";
 
 class BossFight extends Scene{
@@ -13,10 +14,13 @@ class BossFight extends Scene{
     private isPaused = false;
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
     private engine:Engine = Engine.getEngine();
-    
-    public  KeyUpHandler = (event: KeyboardEvent) => {
-        //keyhandler del boss
+    private boss: Boss = null;
+
+    public handleMouseDown = (event: MouseEvent) => {
+        this.boss.mouseMovementHandler(event);
     };
+    
+    public  KeyUpHandler = (event: KeyboardEvent) => {};
     public  KeyDownHandler = (event: KeyboardEvent) => {
         const {key} = event;
         
@@ -35,14 +39,17 @@ class BossFight extends Scene{
     };
 
     enter = () => {
+        this.boss = new Boss();
         this.soundtrack.volume = 0.2;
         this.soundtrack.loop = true;
         this.soundtrack.play();
+
     }
 
     public update = () => {
         if (!this.isPaused) { 
-            //uupdate de boss y el if de vitory 
+            //uupdate de boss y el if de vitory
+            this.boss.update(); 
             
         }
         
@@ -54,6 +61,7 @@ class BossFight extends Scene{
         const height = context.canvas.height;
 
         this.background.render();
+        this.boss.render();
         
 
         if (this.isPaused) { // Paused menu
