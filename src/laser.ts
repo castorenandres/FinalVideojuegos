@@ -51,10 +51,18 @@ class laser{
 
         let [posX, posY] = this.position;
 
-        this.RightSide = this.position[0] + this.laser.naturalWidth;
-        this.LeftSide = this.position[0];
-        this.TopSide = this.position[1];
-        this.BottomSide = this.position[1] + this.laser.naturalHeight;
+        // condicion para voltear hitbox 90 clockwise
+        if (!this.horizontal ) {
+            this.RightSide = this.position[0] + this.laser.naturalWidth;
+            this.LeftSide = this.position[0];
+            this.TopSide = this.position[1];
+            this.BottomSide = this.position[1] + this.laser.naturalHeight;
+        } else if (this.horizontal) {
+            this.RightSide = this.position[0];
+            this.LeftSide = this.position[0] - this.laser.naturalHeight;
+            this.TopSide = this.position[1];
+            this.BottomSide = this.position[1] + this.laser.naturalWidth;
+        }
 
         if(this.axis < .5){
             posY = posY + this.speed * Time.deltaTime;
@@ -90,21 +98,20 @@ class laser{
     public render = () => {
         const { context } = GameContext;
         let[posX, posY] = this.position;
+
+        context.save();
+        context.beginPath();
+
         if(this.horizontal === false){
-            context.save();
-            context.beginPath();
             context.drawImage(this.laser, posX, posY);
-            context.closePath();
-            context.restore();
         }else{
-            context.save();
-            context.beginPath();
             context.translate(posX, posY)
             context.rotate(90 * Math.PI / 180)
             context.drawImage(this.laser, 0, 0);
-            context.closePath();
-            context.restore(); 
         }
+
+        context.closePath();
+        context.restore();
     }
 
     public random(max: number){

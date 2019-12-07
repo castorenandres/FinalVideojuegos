@@ -9,10 +9,10 @@ type coords = [number, number];
 
 class Character {
     private position: coords = [0,0];
-    private charWidth: number = 57;
-    private charHeight: number = 80;
-    private sWidth = 57; // sprite width
-    private sHeight = 80; // sprite height
+    private charWidth: number = 62.1;
+    private charHeight: number = 75;
+    private sWidth = 62.1; // sprite width
+    private sHeight = 75; // sprite height
     private offsetx: number = 62.1; // Sprite offset
     private frameCounter = 0;
     private currentCharFrame = 0;
@@ -20,7 +20,8 @@ class Character {
     private score: number = 0;
     private state: CharState = null;
     private currentMovement; // either W, A, S, or D
-    private charSpeed = 160;    
+    private charSpeed = 160;   
+    private dead: boolean = false; 
 
     // hitbox
     private RightSide = this.position[0] + this.charWidth; 
@@ -56,6 +57,35 @@ class Character {
         this.sprite.src = spriteState;
     }
 
+    public setOffset (spriteOffset) {
+        this.offsetx = spriteOffset;
+    }
+
+    public setCurrentFrame (currentF) {
+        this.currentCharFrame = currentF;
+    }
+
+    public setCharW (charw) {
+        this.charWidth = charw;
+    }
+
+    public setCharH (charh) {
+        this.charHeight = charh;
+    }
+
+    public setSpriteW (widthS) {
+        this.sWidth = widthS;
+    }
+
+    public setSpriteH (heightS) {
+        this.sHeight = heightS;
+    }
+
+    public getDead () {
+        return this.dead;
+    }
+
+
     public constructor () {
         const {context} = GameContext;
         const {width, height} = context.canvas;
@@ -85,9 +115,12 @@ class Character {
         }
     };
 
-    public CharacterDead = () => { // sets the sprite to spriteKnightDead and changes the last and current mouse event to run the animation
-        this.state = new DeadState(this);
-        this.state.enter();
+    public CharacterDead = () => { // sets the sprite to spriteKnightDead and stops character from moving
+        if(!this.dead) {
+            this.state = new DeadState(this);
+            this.state.enter();
+            this.dead = !this.dead;
+        }
     };
 
     public  KeyUpHandler = (event: KeyboardEvent) => {
@@ -135,6 +168,13 @@ class Character {
         }
     };
 
+    public animation = () => {
+        this.frameCounter += 1;  
+        if (this.frameCounter % 6 === 0) {
+            this.currentCharFrame = (this.currentCharFrame + 1) % 10; 
+        }
+    };
+
     public update = () => {
         const {context} = GameContext;
         const {width, height} = context.canvas;
@@ -144,26 +184,25 @@ class Character {
         this.TopSide = this.position[1];
         this.BottomSide = this.position[1] + this.charHeight;
 
-        if (this.position[0] > 80 && this.currentMovement === "a") {
-            this.position[0] -= this.charSpeed;
-            this.currentMovement = "";
-        } else if (this.position[0] < (width - this.charWidth) - 80 && this.currentMovement === "d") {
-            this.position[0] += this.charSpeed;
-            this.currentMovement = "";
-        } else if (this.position[1] > 80 && this.currentMovement === "w") {
-            this.position[1] -= this.charSpeed;
-            this.currentMovement = "";
-        } else if (this.position[1] < (height - this.charHeight) - 80 && this.currentMovement === "s") {
-            this.position[1] += this.charSpeed;
-            this.currentMovement = "";
+        if (!this.dead) {
+            if (this.position[0] > 80 && this.currentMovement === "a") {
+                this.position[0] -= this.charSpeed;
+                this.currentMovement = "";
+            } else if (this.position[0] < (width - this.charWidth) - 80 && this.currentMovement === "d") {
+                this.position[0] += this.charSpeed;
+                this.currentMovement = "";
+            } else if (this.position[1] > 80 && this.currentMovement === "w") {
+                this.position[1] -= this.charSpeed;
+                this.currentMovement = "";
+            } else if (this.position[1] < (height - this.charHeight) - 80 && this.currentMovement === "s") {
+                this.position[1] += this.charSpeed;
+                this.currentMovement = "";
+            }
         }
 
         this.state.update();
+        this.animation();
         
-        this.frameCounter += 1;  
-        if (this.frameCounter % 6 === 0) {
-            this.currentCharFrame = (this.currentCharFrame + 1) % 10; 
-        }
     };
 
     public render = () => {

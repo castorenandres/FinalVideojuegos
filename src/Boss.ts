@@ -7,8 +7,8 @@ type coords = [number, number];
 
 class Boss {
     private position: coords = [0,0];
-    private bossWidth: number = 140; // pendiente
-    private bossHeight: number = 140; // pendiente
+    private bossWidth: number = 140; 
+    private bossHeight: number = 140; 
     private click: boolean = false; // flag for mouse click
     private boss = new Image();
 
@@ -28,6 +28,7 @@ class Boss {
         this.spriteBoss.src = spriteBoss;
         this.boss = this.spriteBoss;
         this.hurtsound.volume = 1;
+        //this.position = [(this.random(5) * 160) + 10, (this.random(5) * 160) + 10];
     }
 
     public mouseMovementHandler = (event: MouseEvent) => { // Mouse movement for the game
@@ -38,11 +39,13 @@ class Boss {
         } else if (event.type === "mouseup") {
             this.click = false;
         }
+        console.log(this.click);
 
         // Mouse has to be over the boss to hurt him
         if (event.offsetX < this.RightSide  && event.offsetX > this.LeftSide && event.offsetY < this.BottomSide && event.offsetY > this.TopSide) {
             if (this.click) { // If click is true the boss is hurt and changes position
                 // call function to change position and play sound
+                this.changeBossPosition();
                 if(this.hurtsound.paused) {
                     this.hurtsound.play();
                     // aqui va la funcion de cambiar posicion
@@ -58,8 +61,8 @@ class Boss {
     }
 
     public changeBossPosition = () => {
-        this.position = [(this.random(5) * 160) + 80 - this.bossWidth, (this.random(5) * 160) + 80 - this.bossHeight]
-
+        this.position = [(this.random(5) * 160) + 10 , (this.random(5) * 160) + 10 ]
+        console.log(this.position);
     };
      // no se que mas se ocupe
 
@@ -77,11 +80,11 @@ class Boss {
     public render = () => {
         const {context} = GameContext;
         let [xpos, ypos] = this.position;
+        const {width, height} = context.canvas;
 
         // Character
         context.save();
         context.beginPath();
-        context.translate(xpos, ypos);
         context.drawImage(this.boss, xpos, ypos);
         context.closePath();
         context.restore();

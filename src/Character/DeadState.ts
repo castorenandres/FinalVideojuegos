@@ -9,13 +9,20 @@ class DeadState extends CharacterState { // Solamente cambia de sprite
 
 
     public enter = () => {
-        this.character.setSprite(spriteDead); 
+        this.character.setSprite(spriteDead);
+        this.character.setOffset(87.1);
+        this.character.setCurrentFrame(0);
+        this.character.setSpriteW(85);
+        this.character.setSpriteH(69);
+        this.character.setCharH(69);
+        this.character.setCharW(87.1);
+        // set offset de dead   
     };
 
     public update =()=> { // checar si se arma singltone sino mandar engine
         this.framecounter ++;
 
-        if (this.framecounter >= 11) {
+        if (this.framecounter >= 60) {
             this.engine.setCurrentScene(new GameOver());
         }
         
