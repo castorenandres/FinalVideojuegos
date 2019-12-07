@@ -8,6 +8,7 @@ import Moneda from "../Moneda"
 import Laser from "../laser";
 import GameContext from "../GameContext";
 import Level2 from "./BossFight";
+import StoryPt1 from "./StoryPt1";
 
 class Playing extends Scene {
     private lasers: Laser[] = [];
@@ -75,7 +76,7 @@ class Playing extends Scene {
 
             if (this.character.getScore() === 10) {
                 this.soundtrack.pause();
-                this.engine.setCurrentScene(new Level2());
+                this.engine.setCurrentScene(new StoryPt1());
             }
         }
         
