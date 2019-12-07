@@ -3,7 +3,6 @@ import Character from "./Character/Character";
 import laserImage from "/assets/laserBueno.png"
 import Time from "./Time"
 import Engine from "./Engine"
-import GameOver from "./Scenes/GameOver"
 import Moneda from "./Moneda"
 
 type coords = [number, number];
@@ -15,14 +14,13 @@ class laser{
     private laser = new Image();
     private axis: number = null;
     private horizontal: boolean = null;
-    private busyColumns = new Array(5).fill(false);
-    private busyLines = new Array(5).fill(false);
+    private engine: Engine = Engine.getEngine();
     
     // hitbox
-    private RightSide = this.position[0] + this.laser.naturalWidth;
+    private RightSide = this.position[0] + this.laser.naturalWidth/2;
     private LeftSide = this.position[0];
     private TopSide = this.position[1];
-    private BottomSide = this.position[1] + this.laser.naturalHeight;
+    private BottomSide = this.position[1] + this.laser.naturalHeight/2;
 
     constructor(){
         this.laser.src = laserImage;
@@ -34,25 +32,15 @@ class laser{
 
         if(this.axis < .5){
             //Vertial
-            let columna = this.random(5);
-            while(this.busyColumns[columna]){
-                columna = this.random(5);   
-            }
-            this.busyColumns[columna] = true;
-            posX = (columna * 160) + 60
+            posX = (this.random(5) * 160) + 60
             this.position = [posX, 0]
             this.horizontal = false;
-            
         }else{
             //Horizontal
-            let line = this.random(5);
-            while(this.busyLines[line]){
-                line = this.random(5);
-            }   
-            this.busyLines[line] = true;
-            posY = (line * 160) + 60
+            posY = (this.random(5) * 160) + 60
             this.position = [0, posY]
             this.horizontal = true;
+            //Rotate 90 degrees
         }
  
     }
@@ -62,6 +50,13 @@ class laser{
         const { width } = context.canvas;
 
         let [posX, posY] = this.position;
+
+        if(this.axis < .5){
+            posY = posY + this.speed * Time.deltaTime;
+        }else{
+            posX = posX + this.speed * Time.deltaTime;
+            
+        }
 
         // condicion para voltear hitbox 90 clockwise
         if (!this.horizontal ) {
@@ -76,44 +71,22 @@ class laser{
             this.BottomSide = this.position[1] + this.laser.naturalWidth;
         }
 
-        if(this.axis < .5){
-            posY = posY + this.speed * Time.deltaTime;
-        }else{
-            posX = posX + this.speed * Time.deltaTime;
-            
-        }
-
-        
-
         this.position = [posX, posY];
         
         
         if(posY != -50 && posX != -50){
-            
             if(posY < 0 || posY > width || posX < 0 || posX > width){
-                this.speed = 250 + (Math.random() * 50)
                 if(this.axis < .5){
-                    //Vertical
-                    this.busyColumns[posX/160-60] = false;
-                    let columna = this.random(5);
-                    while(this.busyColumns[columna]){
-                        columna = this.random(5);   
-                    }
-                    this.busyColumns[columna] = true;
-                    posX = (columna * 160) + 60
+                    //Vertial
+                    posX = (this.random(5) * 160) + 60
                     this.position = [posX, 0]
                     this.horizontal = false;
                 }else{
                     //Horizontal
-                    this.busyLines[posY/160-60] = false;
-                    let line = this.random(5);
-                    while(this.busyLines[line]){
-                        line = this.random(5);
-                    }   
-                    this.busyLines[line] = true;
-                    posY = (line * 160) + 60
+                    posY = (this.random(5) * 160) + 60
                     this.position = [0, posY]
                     this.horizontal = true;
+                    //Rotate 90 degrees
                 }
             }
         }
@@ -123,31 +96,32 @@ class laser{
     public render = () => {
         const { context } = GameContext;
         let[posX, posY] = this.position;
-
-        context.save();
-        context.beginPath();
-
         if(this.horizontal === false){
+            context.save();
+            context.beginPath();
             context.drawImage(this.laser, posX, posY);
+            context.closePath();
+            context.restore();
         }else{
+            context.save();
+            context.beginPath();
             context.translate(posX, posY)
             context.rotate(90 * Math.PI / 180)
             context.drawImage(this.laser, 0, 0);
+            context.closePath();
+            context.restore(); 
         }
-
-        context.closePath();
-        context.restore();
     }
 
     public random(max: number){
         return Math.floor(Math.random() * Math.floor(max))
     }
 
-    public checkCollision = (Character: Character, engine: Engine, Moneda: Moneda) => {
-        const mRight = Character.getRightSide();
-        const mLeft = Character.getLeftSide();
-        const mTop = Character.getTopSide();
-        const mBottom = Character.getBottomSide();
+    public checkCollision = (Character: Character, Moneda: Moneda) => {
+        const mRight = Character.getRightSide() + 20;
+        const mLeft = Character.getLeftSide() + 50;
+        const mTop = Character.getTopSide() + 20;
+        const mBottom = Character.getBottomSide() - 20;
 
         if (this.LeftSide  < mRight && this.RightSide > mLeft && this.TopSide < mBottom && this.BottomSide > mTop) {
             this.position = [-50, -50]
@@ -157,11 +131,11 @@ class laser{
         }
     }
 
-    public checkCollisionBool = (Character: Character, engine: Engine) => {
-        const mRight = Character.getRightSide();
-        const mLeft = Character.getLeftSide();
-        const mTop = Character.getTopSide();
-        const mBottom = Character.getBottomSide();
+    public checkCollisionBool = (Character: Character) => {
+        const mRight = Character.getRightSide() + 20;
+        const mLeft = Character.getLeftSide() + 50;
+        const mTop = Character.getTopSide() + 20;
+        const mBottom = Character.getBottomSide() - 20;
 
         if (this.LeftSide  < mRight && this.RightSide > mLeft && this.TopSide < mBottom && this.BottomSide > mTop) {
             return true;

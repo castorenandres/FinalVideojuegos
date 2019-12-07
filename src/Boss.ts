@@ -6,11 +6,15 @@ import spriteBoss from "/assets/BossSprite.png"
 type coords = [number, number];
 
 class Boss {
-    private position: coords = [0,0];
+    private position: coords = [-200,-200];
     private bossWidth: number = 140; 
     private bossHeight: number = 140; 
     private click: boolean = false; // flag for mouse click
     private boss = new Image();
+    private frameCounter = 0;
+    private checkClick: boolean = false;
+    private clickCounter = 0;
+    private checkSound: boolean = false;
 
     private spriteBoss = new Image();
 
@@ -28,7 +32,11 @@ class Boss {
         this.spriteBoss.src = spriteBoss;
         this.boss = this.spriteBoss;
         this.hurtsound.volume = 1;
-        //this.position = [(this.random(5) * 160) + 10, (this.random(5) * 160) + 10];
+        this.position = [(this.random(5) * 160) + 10, (this.random(5) * 160) + 10];
+    }
+
+    public getClicks () {
+        return this.clickCounter;
     }
 
     public mouseMovementHandler = (event: MouseEvent) => { // Mouse movement for the game
@@ -39,18 +47,12 @@ class Boss {
         } else if (event.type === "mouseup") {
             this.click = false;
         }
-        console.log(this.click);
 
         // Mouse has to be over the boss to hurt him
         if (event.offsetX < this.RightSide  && event.offsetX > this.LeftSide && event.offsetY < this.BottomSide && event.offsetY > this.TopSide) {
             if (this.click) { // If click is true the boss is hurt and changes position
-                // call function to change position and play sound
-                this.changeBossPosition();
-                if(this.hurtsound.paused) {
-                    this.hurtsound.play();
-                    // aqui va la funcion de cambiar posicion
-                    // this.score += 1; counter para vida o sera barra de vida?
-                }
+                this.checkClick = !this.checkClick; // use on update
+                this.checkSound = !this.checkSound; // use on update
             }
         }
 
@@ -61,20 +63,36 @@ class Boss {
     }
 
     public changeBossPosition = () => {
-        this.position = [(this.random(5) * 160) + 10 , (this.random(5) * 160) + 10 ]
-        console.log(this.position);
+            this.position = [(this.random(5) * 160) + 10 , (this.random(5) * 160) + 10 ];
     };
      // no se que mas se ocupe
 
     public update = () => {
-        // no se si se ocupe
-        const {context} = GameContext;
-        const {width, height} = context.canvas;
         // update hitbox
         this.RightSide = this.position[0] + this.bossWidth;
         this.LeftSide = this.position[0];
         this.TopSide = this.position[1];
         this.BottomSide = this.position[1] + this.bossHeight;
+
+        this.frameCounter++;
+        if (this.frameCounter >= 40) {
+            this.changeBossPosition();
+            this.frameCounter = 0;
+        }
+
+        if (this.checkClick) {
+            this.changeBossPosition();
+            this.frameCounter = 0;
+            this.clickCounter++;
+            this.checkClick = !this.checkClick;
+        }
+
+        if (this.checkSound) {
+            if(this.hurtsound.paused) {
+                this.hurtsound.play();
+            }
+            this.checkSound = !this.checkSound;
+        }
     };
 
     public render = () => {

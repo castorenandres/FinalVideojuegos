@@ -13,3 +13,17 @@ Pendiente:
     + Historia pt 1, 2 y 3
     + Clase Boss
     + cambiar background de level2 y bossfight
+
+
+        // condicion para voltear hitbox 90 clockwise
+            if (!this.horizontal ) {
+                this.RightSide = this.position[0] + this.laser.naturalWidth;
+                this.LeftSide = this.position[0];
+                this.TopSide = this.position[1];
+                this.BottomSide = this.position[1] + this.laser.naturalHeight;
+            } else if (this.horizontal) {
+                this.RightSide = this.position[0];
+                this.LeftSide = this.position[0] - this.laser.naturalHeight;
+                this.TopSide = this.position[1];
+                this.BottomSide = this.position[1] + this.laser.naturalWidth;
+            }

@@ -12,9 +12,11 @@ class BossFight extends Scene{
     private background = new Background(this);
     private soundtrack = new Audio(Soundtrack);
     private isPaused = false;
+    private tutorialInstructions = ["Instructions", "Movement: Mouse", "Objective: hit the boss", "Press P to pause game", "Press T to resume game"];
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
     private engine:Engine = Engine.getEngine();
     private boss: Boss = null;
+    private tutorial = true;
 
     public handleMouseDown = (event: MouseEvent) => {
         this.boss.mouseMovementHandler(event);
@@ -27,8 +29,15 @@ class BossFight extends Scene{
         //llamar la funcion del keyhandler del boss
 
         switch(key){ 
+            case "t":
+                if (this.isPaused === false)
+                    this.tutorial = !this.tutorial;
+                break;
+
             case "p":
-            this.isPaused = !this.isPaused;
+                if (this.tutorial === false)
+                    this.isPaused = !this.isPaused;
+                break;
             break;
 
             case "Escape":
@@ -47,10 +56,12 @@ class BossFight extends Scene{
     }
 
     public update = () => {
-        if (!this.isPaused) { 
-            //uupdate de boss y el if de vitory
+        if (!this.isPaused  && !this.tutorial) { 
             this.boss.update(); 
-            
+            if (this.boss.getClicks() >= 8) {
+                this.soundtrack.pause();
+                this.engine.setCurrentScene(new VicotryScene());
+            }
         }
         
     }
@@ -62,6 +73,26 @@ class BossFight extends Scene{
 
         this.background.render();
         this.boss.render();
+
+        if (this.tutorial) { // Tutorial text
+            context.save();
+            context.globalAlpha = 0.5;
+            context.rect(200,200,400,400);
+            context.fillStyle = "#1E63B3"; // buscar que color queda mejor con el fondo
+            context.fill();
+            context.restore();
+            
+            context.save();
+            context.beginPath();
+            context.textAlign = "center";
+            context.fillStyle = "white"; // buscar que color queda mejor con el cuadro y fondo
+            context.font = "30px sans"
+            for (let i = 0; i < this.tutorialInstructions.length; i++){
+                context.fillText(this.tutorialInstructions[i], width / 2, height / 3 + i * 70);
+            }
+            context.closePath();
+            context.restore();
+        }
         
 
         if (this.isPaused) { // Paused menu

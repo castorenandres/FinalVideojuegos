@@ -1,10 +1,9 @@
 import Scene from "./Scene";
 import GameContext from "../GameContext";
 import Engine from "../Engine";
-import Playing from "./Level1";
 import Creditos from "./Creditos";
 import background from "/assets/MenuScene.png"
-import StoryPt1 from "./StoryPt1";
+import StoryPt1 from "./Level1";
 
 class MenuScene extends Scene {
     private backgroundImage = new Image();
@@ -54,11 +53,7 @@ class MenuScene extends Scene {
                 break;
             case "Enter":
                 if(this.currenOption == 0) {
-<<<<<<< HEAD
                     this.engine.setCurrentScene (new StoryPt1());
-=======
-                    this.engine.setCurrentScene (new Playing()); // se va a Storypt1
->>>>>>> daedc8337bc5bf6780a9a783c23ab826d2a116c0
                 }
                 if(this.currenOption == 1) {
                     this.engine.setCurrentScene(new Creditos());

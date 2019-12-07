@@ -59,10 +59,10 @@ class Level2 extends Scene{
             this.character.checkCollisionCoin(this.moneda);
             for(let x = 0; x < 4; x++){
                 this.lasers[x].update();
-                if(this.lasers[x].checkCollisionBool(this.character, this.engine)){
+                if(this.lasers[x].checkCollisionBool(this.character)){
                     this.soundtrack.pause();
                 }
-                this.lasers[x].checkCollision(this.character, this.engine, this.moneda);
+                this.lasers[x].checkCollision(this.character, this.moneda);
             }
 
             this.character.checkCollisionCoin(this.moneda);
