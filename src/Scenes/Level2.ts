@@ -8,6 +8,7 @@ import Moneda from "../Moneda"
 import Laser from "../laser";
 import GameContext from "../GameContext";
 import BossFight from "./BossFight";
+import StoryPt3 from "./StoryPt3";
 
 class Level2 extends Scene{
 
@@ -59,17 +60,17 @@ class Level2 extends Scene{
             this.character.checkCollisionCoin(this.moneda);
             for(let x = 0; x < 4; x++){
                 this.lasers[x].update();
-                if(this.lasers[x].checkCollisionBool(this.character, this.engine)){
+                if(this.lasers[x].checkCollisionBool(this.character)){
                     this.soundtrack.pause();
                 }
-                this.lasers[x].checkCollision(this.character, this.engine, this.moneda);
+                this.lasers[x].checkCollision(this.character, this.moneda);
             }
 
             this.character.checkCollisionCoin(this.moneda);
 
             if (this.character.getScore() === 15) {
                 this.soundtrack.pause();
-                this.engine.setCurrentScene(new BossFight());
+                this.engine.setCurrentScene(new StoryPt3());
             }
         }
         

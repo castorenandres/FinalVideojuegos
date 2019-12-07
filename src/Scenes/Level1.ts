@@ -7,12 +7,7 @@ import Soundtrack from "/assets/soundtrack.mp3";
 import Moneda from "../Moneda"
 import Laser from "../laser";
 import GameContext from "../GameContext";
-<<<<<<< HEAD
-import Level2 from "./BossFight";
-import StoryPt1 from "./StoryPt1";
-=======
-import Level2 from "./Level2";
->>>>>>> daedc8337bc5bf6780a9a783c23ab826d2a116c0
+import StoryPt2 from "./StoryPt2";
 
 class Playing extends Scene {
     private lasers: Laser[] = [];
@@ -23,7 +18,7 @@ class Playing extends Scene {
     private isPaused = false;
     private tutorial = true;
     private optionsPause = ["Press P to resume", "Press ESC to go to main menu"];
-    private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press T to resume game"]
+    private tutorialInstructions = ["Instructions", "Movement: WASD", "Dodge spells", "Collect coins", "Press P to pause game", "Press T to resume game"];
     private engine:Engine = Engine.getEngine();
 
     public handleMouseDown = (event: MouseEvent) => {};
@@ -74,21 +69,17 @@ class Playing extends Scene {
             this.character.checkCollisionCoin(this.moneda);
             for(let x = 0; x < 2; x++){
                 this.lasers[x].update();
-                if(this.lasers[x].checkCollisionBool(this.character, this.engine)){
+                if(this.lasers[x].checkCollisionBool(this.character)){
                     this.soundtrack.pause();
                 }
-                this.lasers[x].checkCollision(this.character, this.engine, this.moneda);
+                this.lasers[x].checkCollision(this.character, this.moneda);
             }
 
             this.character.checkCollisionCoin(this.moneda);
 
             if (this.character.getScore() === 5) {
                 this.soundtrack.pause();
-<<<<<<< HEAD
-                this.engine.setCurrentScene(new StoryPt1());
-=======
-                this.engine.setCurrentScene(new Level2()); // pasa a Storypt2
->>>>>>> daedc8337bc5bf6780a9a783c23ab826d2a116c0
+                this.engine.setCurrentScene(new StoryPt2());
             }
         }
         
@@ -120,7 +111,7 @@ class Playing extends Scene {
             context.fillStyle = "white"; // buscar que color queda mejor con el cuadro y fondo
             context.font = "30px sans"
             for (let i = 0; i < this.tutorialInstructions.length; i++){
-                context.fillText(this.tutorialInstructions[i], width / 2, height / 3 + i * 70);
+                context.fillText(this.tutorialInstructions[i], width / 2, height / 3.5 + i * 70);
             }
             context.closePath();
             context.restore();
